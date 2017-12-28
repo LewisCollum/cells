@@ -11,18 +11,28 @@ public:
 	BinaryTree() {
 		srand((unsigned)time(NULL));
 
-		for (int y = 0; y < getRows(); y++) {
-			for (int x = 0; x < getColumns(); x++) {
+		for (int y = 0; y < ROWS; y++) {
+			for (int x = 0; x < COLS; x++) {
 
-				grid[y][x].setNeighbors(true, false, true, false);
+				bool north;
+				bool east;
 
-				if (!grid[y][x].getNeighbors().empty()) {
+
+				grid[y - 1][x] != nullptr ? north = true : north = false;
+				grid[y][x + 1] != nullptr ? east = true : east = false;
+
+
+				//grid[y][x]
+				//grid[y][x].setNeighbors(true, false, true, false);
+
+				/*if (!grid[y][x].getNeighbors().empty()) {
 
 					int index = rand() % grid[y][x].getNeighbors().size();
 
 					grid[y][x].link(*grid[y][x].getNeighbors()[index]);
 
 				}
+				*/
 
 			}
 		}

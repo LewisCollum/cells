@@ -17,14 +17,13 @@ class Grid
 	friend std::ostream& operator<< <>(std::ostream& output, const Grid<COLS, ROWS>& g);
 	
 	std::array<std::array<Cell, COLS>, ROWS> grid;
-	std::array<std::array<Cell, COLS>, ROWS> prepareGrid(std::array<std::array<Cell, COLS>, ROWS>& g);
+	virtual std::array<std::array<Cell, COLS>, ROWS> prepareGrid(std::array<std::array<Cell, COLS>, ROWS>& g);
 
 	// TODO make a function that returns correct grid character ('~' or '#') based on ship.show (bool)
 
 public:
 	Grid();
 };
-
 
 template<std::size_t COLS, std::size_t ROWS>
 Grid<COLS, ROWS>::Grid()
@@ -42,11 +41,10 @@ std::array<std::array<Cell, COLS>, ROWS> Grid<COLS, ROWS>::prepareGrid(std::arra
 	return g;
 }
 
+// For Writing Grid to stream
 template<std::size_t COLS, std::size_t ROWS>
 std::ostream& operator<<(std::ostream& output, const Grid<COLS, ROWS>& g)
 {
-	// write object to stream
-
 	// top border
 	output << "+";
 	for (auto i = g.grid[0].begin(); i != g.grid[0].end(); ++i) output << "---+";
@@ -60,7 +58,6 @@ std::ostream& operator<<(std::ostream& output, const Grid<COLS, ROWS>& g)
 		for (int col = 0; col != g.grid[row].size(); ++col) {  // for each column in row...
 
 			std::string body = "   ";
-
 			std::string corner = "+";
 
 			std::string east_boundary;

@@ -13,10 +13,14 @@ class Cell
 {
 	char body = ' ';
 	std::forward_list<Cell> links;
-	Cell *north, *south, *east, *west;
+	Cell *north = nullptr;
+	Cell *south = nullptr;
+	Cell *east = nullptr;
+	Cell *west = nullptr;
 
 public:
 	Cell() {}
+
 
 	bool operator==(const Cell &c) const {
 		return &(*this) == &c;
