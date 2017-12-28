@@ -14,12 +14,12 @@ public:
 		for (int y = 0; y < ROWS; y++) {
 			for (int x = 0; x < COLS; x++) {
 
-				bool north;
-				bool east;
+				//bool north;
+				//bool east;
 
 
-				grid[y - 1][x] != nullptr ? north = true : north = false;
-				grid[y][x + 1] != nullptr ? east = true : east = false;
+				//grid[y - 1][x] != nullptr ? north = true : north = false;
+				//grid[y][x + 1] != nullptr ? east = true : east = false;
 
 
 				//grid[y][x]
