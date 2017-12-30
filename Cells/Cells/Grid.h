@@ -15,22 +15,27 @@ class Grid
 {
 	// overload for writing Grid to screen (Ignore Visual Studio's Warning)
 	friend std::ostream& operator<< <>(std::ostream& output, const Grid<COLS, ROWS>& g);
-	
+
+protected:
 	std::array<std::array<Cell, COLS>, ROWS> grid;
 	virtual std::array<std::array<Cell, COLS>, ROWS> prepareGrid(std::array<std::array<Cell, COLS>, ROWS>& g);
 
-	// TODO make a function that returns correct grid character ('~' or '#') based on ship.show (bool)
+	bool isNorth(int index);
+	bool isEast(int index);
 
 public:
 	Grid();
+
 };
 
+// CONSTRUCTOR
 template<std::size_t COLS, std::size_t ROWS>
 Grid<COLS, ROWS>::Grid()
 {
 	prepareGrid(grid);
 }
 
+// PREPARE GRID
 template<std::size_t COLS, std::size_t ROWS>
 std::array<std::array<Cell, COLS>, ROWS> Grid<COLS, ROWS>::prepareGrid(std::array<std::array<Cell, COLS>, ROWS>& g)
 {
@@ -41,7 +46,21 @@ std::array<std::array<Cell, COLS>, ROWS> Grid<COLS, ROWS>::prepareGrid(std::arra
 	return g;
 }
 
-// For Writing Grid to stream
+// NORTH? (BOUNDARY CHECK)
+template<std::size_t COLS, std::size_t ROWS>
+inline bool Grid<COLS, ROWS>::isNorth(int index)
+{
+	return index != 0;
+}
+
+// EAST? (BOUNDARY CHECK)
+template<std::size_t COLS, std::size_t ROWS>
+inline bool Grid<COLS, ROWS>::isEast(int index)
+{
+	return index != COLS - 1;
+}
+
+// WRITE GRID TO STREAM
 template<std::size_t COLS, std::size_t ROWS>
 std::ostream& operator<<(std::ostream& output, const Grid<COLS, ROWS>& g)
 {
@@ -87,5 +106,3 @@ std::ostream& operator<<(std::ostream& output, const Grid<COLS, ROWS>& g)
 
 	return output;
 }
-
-// TODO implement either index based loops in grid or implement neighbors

@@ -6,36 +6,19 @@
 // TODO
 
 #include <forward_list>
-#include <ostream>
+#include <iostream>
 #include <string>
 
 class Cell
 {
 	char body = ' ';
-	std::forward_list<Cell> links;
-	Cell *north = nullptr;
-	Cell *south = nullptr;
-	Cell *east = nullptr;
-	Cell *west = nullptr;
+	std::forward_list<Cell*> links;
 
 public:
 	Cell() {}
 
-
-	bool operator==(const Cell &c) const {
-		return &(*this) == &c;
-	}
-	
-	//char setBody(char b) { body = b; return body; }
-	//char const& getBody() const { return body; }
-
-	
-
-	void occupy() {}
-	void deoccupy() {}
-
-	void link(Cell&, bool);
-	void unlink(Cell&, bool);
+	void link(Cell&, bool bidi = true);
+	void unlink(Cell&, bool bidi = true);
 	bool isLinked(const Cell&) const;
 };
 

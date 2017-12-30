@@ -9,13 +9,17 @@ Cellular Automata (Conway's Game of Life)
 #include <iostream>
 #include "Grid.h"
 #include "BinaryTree.h"
+#include <forward_list>
+#include <array>
+
+struct C {
+	int x, y;
+	std::forward_list<C*> links;
+};
 
 int main() {
 
-	Grid<20, 11> g;
-	std::cout << g;
-
-	std::cout << BinaryTree<20, 11>();
+	std::cout << BinaryTree<10, 10>();
 
 	system("pause");
 	return 0;
