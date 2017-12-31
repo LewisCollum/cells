@@ -12,11 +12,6 @@ Cellular Automata (Conway's Game of Life)
 #include <forward_list>
 #include <array>
 
-struct C {
-	int x, y;
-	std::forward_list<C*> links;
-};
-
 int main() {
 
 	std::cout << BinaryTree<10, 10>();

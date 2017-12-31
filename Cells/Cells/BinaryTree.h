@@ -16,10 +16,6 @@ public:
 template<std::size_t COLS, std::size_t ROWS>
 BinaryTree<COLS, ROWS>::BinaryTree()
 {
-}
-
-template<std::size_t COLS, std::size_t ROWS>
-BinaryTree::BinaryTree() {
 	srand((unsigned)time(NULL));
 
 	for (int y = 0; y < ROWS; y++) {
