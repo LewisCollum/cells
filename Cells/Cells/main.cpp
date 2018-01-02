@@ -13,9 +13,13 @@ Cellular Automata (Conway's Game of Life)
 
 int main() {
 
-	std::cout << "BinaryTree: " << std::endl << BinaryTree<10, 10>();
-	std::cout << "Aldous-Broder: " << std::endl << AldousBroder<10, 100>();
+	//std::cout << "BinaryTree: " << std::endl << BinaryTree<10, 10>();
+	//std::cout << "Aldous-Broder: " << std::endl << AldousBroder<10, 10>();
 
+	Grid<15, 15> dungeon;
+	std::cout << dungeon;
+
+	// TODO : Make a grid instance and use it to make custom mazes
 	system("pause");
 	return 0;
 }

@@ -12,11 +12,6 @@
 class Cell
 {
 	std::forward_list<Cell*> links;
-	std::forward_list<Cell*> neighbors;
-	Cell * north = nullptr;
-	Cell * south = nullptr;
-	Cell * east = nullptr;
-	Cell * west = nullptr;
 
 public:
 	Cell() {}

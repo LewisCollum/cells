@@ -15,6 +15,7 @@ class Grid
 {
 	// overload for writing Grid to screen (Ignore Visual Studio's Warning)
 	friend std::ostream& operator<< <>(std::ostream& output, const Grid<COLS, ROWS>& g);
+	// TODO : Implement ICellSelectionBehavior interface
 
 protected:
 	std::array<std::array<Cell, COLS>, ROWS> grid;
@@ -27,7 +28,6 @@ protected:
 
 public:
 	Grid();
-
 	enum { NORTH, SOUTH, EAST, WEST };
 
 };
