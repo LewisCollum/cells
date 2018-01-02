@@ -111,11 +111,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AldousBroder.h" />
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Grid.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AldousBroder.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

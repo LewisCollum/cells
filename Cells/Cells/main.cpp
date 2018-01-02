@@ -9,12 +9,12 @@ Cellular Automata (Conway's Game of Life)
 #include <iostream>
 #include "Grid.h"
 #include "BinaryTree.h"
-#include <forward_list>
-#include <array>
+#include "AldousBroder.h"
 
 int main() {
 
-	std::cout << BinaryTree<10, 10>();
+	std::cout << "BinaryTree: " << std::endl << BinaryTree<10, 10>();
+	std::cout << "Aldous-Broder: " << std::endl << AldousBroder<10, 100>();
 
 	system("pause");
 	return 0;

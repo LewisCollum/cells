@@ -20,11 +20,15 @@ protected:
 	std::array<std::array<Cell, COLS>, ROWS> grid;
 	virtual std::array<std::array<Cell, COLS>, ROWS> prepareGrid(std::array<std::array<Cell, COLS>, ROWS>& g);
 
-	bool isNorth(int index);
-	bool isEast(int index);
+	bool isNorth(int index) { return index != 0; }
+	bool isEast(int index) { return index != COLS - 1; }
+	bool isSouth(int index) { return index != ROWS - 1; }
+	bool isWest(int index) { return index != 0; }
 
 public:
 	Grid();
+
+	enum { NORTH, SOUTH, EAST, WEST };
 
 };
 
@@ -46,19 +50,6 @@ std::array<std::array<Cell, COLS>, ROWS> Grid<COLS, ROWS>::prepareGrid(std::arra
 	return g;
 }
 
-// NORTH? (BOUNDARY CHECK)
-template<std::size_t COLS, std::size_t ROWS>
-inline bool Grid<COLS, ROWS>::isNorth(int index)
-{
-	return index != 0;
-}
-
-// EAST? (BOUNDARY CHECK)
-template<std::size_t COLS, std::size_t ROWS>
-inline bool Grid<COLS, ROWS>::isEast(int index)
-{
-	return index != COLS - 1;
-}
 
 // WRITE GRID TO STREAM
 template<std::size_t COLS, std::size_t ROWS>

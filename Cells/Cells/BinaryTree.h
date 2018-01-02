@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <time.h>
 #include "Grid.h"
-#include <iostream>
 
 template<std::size_t COLS, std::size_t ROWS>
 class BinaryTree : public Grid<COLS, ROWS>

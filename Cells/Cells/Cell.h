@@ -11,8 +11,12 @@
 
 class Cell
 {
-	char body = ' ';
 	std::forward_list<Cell*> links;
+	std::forward_list<Cell*> neighbors;
+	Cell * north = nullptr;
+	Cell * south = nullptr;
+	Cell * east = nullptr;
+	Cell * west = nullptr;
 
 public:
 	Cell() {}
@@ -20,5 +24,6 @@ public:
 	void link(Cell&, bool bidi = true);
 	void unlink(Cell&, bool bidi = true);
 	bool isLinked(const Cell&) const;
+	std::forward_list<Cell*> const& getLinks() const { return links; }
 };
 
