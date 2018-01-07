@@ -19,7 +19,7 @@ public:
 		while (unvisited > 0) {
 			chooseNeighbor();
 
-			if (grid[neighborY][neighborX].getLinks().empty()) {
+			if (grid[neighborY][neighborX].noLinks()) {
 				grid[Y][X].link(grid[neighborY][neighborX]);
 				--unvisited;
 			}
@@ -38,9 +38,7 @@ public:
 				neighborY = Y - 1;
 				neighborX = X;
 			}
-			else {
-				chooseNeighbor();
-			}
+			else chooseNeighbor();
 			break;
 
 		case SOUTH:
@@ -48,9 +46,7 @@ public:
 				neighborY = Y + 1;
 				neighborX = X;
 			}
-			else {
-				chooseNeighbor();
-			}
+			else chooseNeighbor();
 			break;
 
 		case EAST:
@@ -58,9 +54,7 @@ public:
 				neighborX = X + 1;
 				neighborY = Y;
 			}
-			else {
-				chooseNeighbor();
-			}
+			else chooseNeighbor();
 			break;
 
 		case WEST:
@@ -68,9 +62,7 @@ public:
 				neighborX = X - 1;
 				neighborY = Y;
 			}
-			else {
-				chooseNeighbor();
-			}
+			else chooseNeighbor();
 			break;
 
 		}
