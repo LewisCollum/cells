@@ -5,8 +5,8 @@
 #include "Grid.h"
 #include <iostream>
 
-template<std::size_t COLS, std::size_t ROWS>
-class AldousBroder : public Grid<COLS, ROWS>
+template<class CellType, size_t COLS, size_t ROWS>
+class AldousBroder : public Grid<Cell, COLS, ROWS>
 {
 	int unvisited = COLS * ROWS - 1;
 	int X = rand() % (COLS - 1);

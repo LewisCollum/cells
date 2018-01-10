@@ -12,14 +12,17 @@ Cellular Automata (Conway's Game of Life)
 #include "BinaryTree.h"
 #include "AldousBroder.h"
 
+
+
 int main() {
 
-	std::cout << "BinaryTree: " << std::endl << BinaryTree<6, 6>();
-	std::cout << "Aldous-Broder: " << std::endl << AldousBroder<6, 6>();
+	std::cout << "BinaryTree: " << std::endl << BinaryTree<Cell, 6, 6>();
+	std::cout << "Aldous-Broder: " << std::endl << AldousBroder<Cell, 6, 6>();
+	Grid<Cell, 5, 5> g;
 
-	AldousBroder<15, 15> g;
-
-	
+	//g[0][0].link(g[1][0]);
+	//std::cout << g;
+	/*
 	int roomX = 5;
 	int roomY = 5;
 	int roomWidth = 5;
@@ -36,7 +39,7 @@ int main() {
 			
 		}
 	}
-	
+	*/
 	
 	//Grid<5, 5> alexGrid;
 	//alexGrid[0][0].link(alexGrid[1][0]);

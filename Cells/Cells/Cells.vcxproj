@@ -114,11 +114,22 @@
     <ClInclude Include="AldousBroder.h" />
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="CellGrid.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="ILinkBehavior.h" />
+    <ClInclude Include="ILinkBehaviorFactory.h" />
+    <ClInclude Include="ISelectionBehavior.h" />
+    <ClInclude Include="ISelectionBehaviorFactory.h" />
+    <ClInclude Include="IWriteFactory.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AldousBroder.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="CellGrid.cpp" />
+    <ClCompile Include="ILinkBehavior.cpp" />
+    <ClCompile Include="ILinkBehaviorFactory.cpp" />
+    <ClCompile Include="ISelectionBehavior.cpp" />
+    <ClCompile Include="ISelectionBehaviorFactory.cpp" />
+    <ClCompile Include="IWriteFactory.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

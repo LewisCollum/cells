@@ -2,25 +2,40 @@
 
 #include <array>
 #include <ostream>
-#include "Cell.h"
 #include <string>
 
+
 // Forward Declarations (Necessary for friends of template class)
-template<std::size_t COLS, std::size_t ROWS> class Grid;
-template<std::size_t COLS, std::size_t ROWS> std::ostream& operator<<(std::ostream& output, Grid<COLS, ROWS>& g);
+template<class CellType, size_t COLS, size_t ROWS> class Grid;
+// TODO : Move overload to another class
+template<class CellType, size_t COLS, size_t ROWS> std::ostream& operator<<(std::ostream& output, const Grid<CellType, COLS, ROWS>& g);
 
 // Class Definition
-template<std::size_t COLS, std::size_t ROWS>
+template<class CellType, size_t COLS, size_t ROWS>
 class Grid
 {
-	// TODO : make "Grid<COLS, ROWS>& g" const and implement const [] operators
-	// overload for writing Grid to screen (Ignore Visual Studio's Warning)
-	friend std::ostream& operator<< <>(std::ostream& output, Grid<COLS, ROWS>& g);
+	friend std::ostream& operator<< <>(std::ostream& output, const Grid<CellType, COLS, ROWS>& g);
+
+public:
+	using size_type = size_t;
+	using reference = CellType&;
+	using const_reference = const CellType&;
 
 protected:
 
-	std::array<std::array<Cell, COLS>, ROWS> grid;
-	virtual std::array<std::array<Cell, COLS>, ROWS> prepareGrid(std::array<std::array<Cell, COLS>, ROWS>& g);
+	std::array<std::array<CellType, COLS>, ROWS> grid;
+	/*
+	virtual std::array<std::array<CellType, COLS>, ROWS> prepareGrid(std::array<std::array<CellType, COLS>, ROWS>& g)
+	{
+		// TODO : make cell pointers instead and instantiate Cell only when needed
+		// This will allow us to create memory efficient non-rectangular grids
+		for (auto i = g.begin(); i != g.end(); ++i)
+			for (auto j = i->begin(); j != i->end(); ++j)
+				*j = new CellType();
+
+		return g;
+	}
+	*/
 
 	bool isNorth(int index) { return index != 0; }
 	bool isEast(int index) { return index != COLS - 1; }
@@ -28,47 +43,22 @@ protected:
 	bool isWest(int index) { return index != 0; }
 
 public:
-	Grid();
+	Grid() {}
 	enum { NORTH, SOUTH, EAST, WEST };
-	size_t size() const { return grid.size(); }
+	constexpr size_type size() const { return grid.size(); }
 
-	// Subscripting [][] overloads
 	class Proxy {
-		std::array<Cell, COLS>& gridRow;
+		const std::array<CellType, COLS>& gridRow;
 	public:
-		Proxy(std::array<Cell, COLS>& a) : gridRow(a) {}
-		Cell& operator[](size_t i) { return gridRow[i]; }
-		size_t size() const { return gridRow.size(); }
+		constexpr explicit Proxy(const std::array<CellType, COLS>& a) : gridRow(a) {}
+		constexpr const_reference operator[](size_type i) const { return gridRow[i]; }
+		constexpr size_type size() const { return gridRow.size(); }
 	};
-
-	Proxy operator[](size_t i) { return Proxy(grid[i]); }
+	constexpr Proxy operator[](size_type i) const { return Proxy(grid[i]); }
 };
-
-// CONSTRUCTOR
-template<std::size_t COLS, std::size_t ROWS>
-Grid<COLS, ROWS>::Grid()
-{
-	//prepareGrid(grid);
-}
-
-// PREPARE GRID
-template<std::size_t COLS, std::size_t ROWS>
-std::array<std::array<Cell, COLS>, ROWS> Grid<COLS, ROWS>::prepareGrid(std::array<std::array<Cell, COLS>, ROWS>& g)
-{
-	// TODO : make cell pointers instead and instantiate Cell only when needed
-	// This will allow us to create memory efficient non-rectangular grids
-	for (auto i = g.begin(); i != g.end(); ++i)
-		for (auto j = i->begin(); j != i->end(); ++j)
-			*j = Cell();
-
-
-	return g;
-}
-
-
 // WRITE GRID TO STREAM
-template<std::size_t COLS, std::size_t ROWS>
-std::ostream& operator<<(std::ostream& output, Grid<COLS, ROWS>& g)
+template<class CellType, size_t COLS, size_t ROWS>
+std::ostream& operator<<(std::ostream& output, const Grid<CellType, COLS, ROWS>& g)
 {
 	// top border
 	output << "+";
