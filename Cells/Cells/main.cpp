@@ -18,7 +18,7 @@ int main() {
 
 	std::cout << "BinaryTree: " << std::endl << BinaryTree<Cell, 6, 6>();
 	std::cout << "Aldous-Broder: " << std::endl << AldousBroder<Cell, 6, 6>();
-	Grid<Cell, 5, 5> g;
+	
 
 	//g[0][0].link(g[1][0]);
 	//std::cout << g;

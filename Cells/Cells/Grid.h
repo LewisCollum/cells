@@ -3,14 +3,20 @@
 #include <array>
 #include <ostream>
 #include <string>
+#include "Cell.h"
 
+/*
+ * TODO : Implement bounds checking
+ * TODO : Implement a pointer array in order to save memory if not all Cells are implemented
+ * TODO : Implement Grid to be non-rectangular
+ */
 
 // Forward Declarations (Necessary for friends of template class)
 template<class CellType, size_t COLS, size_t ROWS> class Grid;
 // TODO : Move overload to another class
 template<class CellType, size_t COLS, size_t ROWS> std::ostream& operator<<(std::ostream& output, const Grid<CellType, COLS, ROWS>& g);
 
-// Class Definition
+
 template<class CellType, size_t COLS, size_t ROWS>
 class Grid
 {
@@ -21,8 +27,9 @@ public:
 	using reference = CellType&;
 	using const_reference = const CellType&;
 
-protected:
+	constexpr enum { NORTH, SOUTH, EAST, WEST };
 
+protected:
 	std::array<std::array<CellType, COLS>, ROWS> grid;
 	/*
 	virtual std::array<std::array<CellType, COLS>, ROWS> prepareGrid(std::array<std::array<CellType, COLS>, ROWS>& g)
@@ -37,26 +44,29 @@ protected:
 	}
 	*/
 
-	bool isNorth(int index) { return index != 0; }
-	bool isEast(int index) { return index != COLS - 1; }
-	bool isSouth(int index) { return index != ROWS - 1; }
-	bool isWest(int index) { return index != 0; }
+	constexpr bool isNorth(int index) const { return index != 0; }
+	constexpr bool isEast(int index) const { return index != COLS - 1; }
+	constexpr bool isSouth(int index) const { return index != ROWS - 1; }
+	constexpr bool isWest(int index) const { return index != 0; }
 
 public:
 	Grid() {}
-	enum { NORTH, SOUTH, EAST, WEST };
-	constexpr size_type size() const { return grid.size(); }
 
 	class Proxy {
 		const std::array<CellType, COLS>& gridRow;
 	public:
 		constexpr explicit Proxy(const std::array<CellType, COLS>& a) : gridRow(a) {}
-		constexpr const_reference operator[](size_type i) const { return gridRow[i]; }
+		// size (length) of columns
 		constexpr size_type size() const { return gridRow.size(); }
+		// index of columns
+		constexpr const_reference operator[](size_type i) const { return gridRow[i]; }
 	};
+	// size (length) of rows
+	constexpr size_type size() const { return grid.size(); }
+	// index of rows
 	constexpr Proxy operator[](size_type i) const { return Proxy(grid[i]); }
 };
-// WRITE GRID TO STREAM
+
 template<class CellType, size_t COLS, size_t ROWS>
 std::ostream& operator<<(std::ostream& output, const Grid<CellType, COLS, ROWS>& g)
 {
