@@ -7,11 +7,14 @@ $(BUILD_DIR)/%.o: %.cpp
 
 test_runner:
 	cxxtestgen --error-printer -o $@.cpp $(TESTS)
-	$(CXX) $(CXXFLAGS) -o $@ $@.cpp -I$(CXXTEST)
+	$(CXX) $(CXXFLAGS) -o $@ $@.cpp -Icxxtest
 
 test: test_runner
+	-./test_runner
+	$(RM) test_runner test_runner.cpp
+
+testKeep: test_runner
 	./test_runner
-	rm test_runner test_runner.cpp
 
 clean:
-	rm -rf $(BUILD_DIR) test_runner*
+	$(RM) -r $(BUILD_DIR) test_runner*

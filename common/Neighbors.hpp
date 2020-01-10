@@ -2,23 +2,45 @@
 #define NEIGHBORS
 
 #include <array>
+#include <stdexcept>
 
 template<typename NeighborType>
 struct Neighbors {
-    
-    std::array<NeighborType*, 4> all;
 
-    enum Direction {NORTH, SOUTH, EAST, WEST};
+    enum class Direction {NORTH, SOUTH, EAST, WEST};
 
-    void setEast(NeighborType* value) { all[Direction::EAST] = value; }
-    void setWest(NeighborType* value) { all[Direction::WEST] = value; }
-    void setNorth(NeighborType* value) { all[Direction::NORTH] = value; }
-    void setSouth(NeighborType* value) { all[Direction::SOUTH] = value; }
+    std::unordered_map<Direction, NeighborType *> all;
+
+    void setEast(NeighborType * value) { setDirection(Direction::EAST, value); }
+    void setWest(NeighborType * value) { setDirection(Direction::WEST, value); }
+    void setNorth(NeighborType * value) { setDirection(Direction::NORTH, value); }
+    void setSouth(NeighborType * value) { setDirection(Direction::SOUTH, value); }
     
-    NeighborType const* getEast() const { return all[Direction::EAST]; }
-    NeighborType const* getWest() const { return all[Direction::WEST]; }
-    NeighborType const* getNorth() const { return all[Direction::NORTH]; }
-    NeighborType const* getSouth() const { return all[Direction::SOUTH]; }
+    NeighborType * getEast() { return getDirection(Direction::EAST); }
+    NeighborType * getWest() { return getDirection(Direction::WEST); }
+    NeighborType * getNorth() { return getDirection(Direction::NORTH); }
+    NeighborType * getSouth() { return getDirection(Direction::SOUTH); }
+
+    void detach(NeighborType * neighbor) {
+        auto detachable = std::find_if(all.begin(), all.end(), [neighbor](auto pair) {
+            return pair.second == neighbor;
+        });
+
+        all.erase(detachable);
+    }
+
+private:
+    void setDirection(Direction direction, NeighborType * value) {
+        // Ensure that 'all' doesn't increase in size due to a nullptr being emplaced
+        if (value != nullptr) all.emplace(direction, value);
+    }
+
+    NeighborType * getDirection(Direction direction) {
+        // Nullptr indicates that a neighbor does not exist.
+        return all.contains(direction)?
+            all[direction]:
+            nullptr;
+    }
 };
 
 #endif
