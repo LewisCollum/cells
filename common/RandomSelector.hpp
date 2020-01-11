@@ -15,9 +15,9 @@ namespace RandomSelector {
 	}
 
 	template <typename Container>
-	auto select(const Container& c) -> decltype(*begin(c))& {
-		return *select(begin(c), end(c));
-	}
+	auto select(Container & c) -> decltype(*c.begin()) {
+		return *select(c.begin(), c.end());
+	}    
 };
 
 #endif
