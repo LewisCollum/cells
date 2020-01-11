@@ -1,8 +1,7 @@
 #ifndef NEIGHBORS
 #define NEIGHBORS
 
-#include <array>
-#include <stdexcept>
+#include <unordered_map>
 
 template<typename NeighborType>
 struct Neighbors {
@@ -11,28 +10,29 @@ struct Neighbors {
 
     std::unordered_map<Direction, NeighborType *> all;
 
-    void setEast(NeighborType * value) { setDirection(Direction::EAST, value); }
-    void setWest(NeighborType * value) { setDirection(Direction::WEST, value); }
-    void setNorth(NeighborType * value) { setDirection(Direction::NORTH, value); }
-    void setSouth(NeighborType * value) { setDirection(Direction::SOUTH, value); }
+    void setEast(NeighborType & value) { setDirection(Direction::EAST, value); }
+    void setWest(NeighborType & value) { setDirection(Direction::WEST, value); }
+    void setNorth(NeighborType & value) { setDirection(Direction::NORTH, value); }
+    void setSouth(NeighborType & value) { setDirection(Direction::SOUTH, value); }
     
     NeighborType * getEast() { return getDirection(Direction::EAST); }
     NeighborType * getWest() { return getDirection(Direction::WEST); }
     NeighborType * getNorth() { return getDirection(Direction::NORTH); }
     NeighborType * getSouth() { return getDirection(Direction::SOUTH); }
 
-    void detach(NeighborType * neighbor) {
-        auto detachable = std::find_if(all.begin(), all.end(), [neighbor](auto pair) {
-            return pair.second == neighbor;
+    void detach(NeighborType & neighbor) {
+        auto detachable = std::find_if(all.begin(), all.end(), [&](auto pair) {
+            return pair.second == &neighbor;
         });
 
-        all.erase(detachable);
+        if (detachable != all.end())
+            all.erase(detachable);
     }
 
 private:
-    void setDirection(Direction direction, NeighborType * value) {
+    void setDirection(Direction direction, NeighborType & value) {
         // Ensure that 'all' doesn't increase in size due to a nullptr being emplaced
-        if (value != nullptr) all.emplace(direction, value);
+        all.emplace(direction, &value);
     }
 
     NeighborType * getDirection(Direction direction) {

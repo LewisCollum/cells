@@ -9,24 +9,27 @@ class TestNeighbors: public CxxTest::TestSuite {
     MockNeighbor expectedNeighbor;
 
 public: 
-    void test_detachEast_eastIsNull() {
-        neighbors.setEast(&expectedNeighbor);
-        neighbors.detach(&expectedNeighbor);
+    void test_detachEastWithoutSettingEast_nothingChanges() {
+        neighbors.detach(expectedNeighbor);
 
-        TS_ASSERT_EQUALS(nullptr, neighbors.getEast());
+        MockNeighbor * expected = nullptr;
+        MockNeighbor * actual = neighbors.getEast();
+
+        TS_ASSERT_EQUALS(expected, actual);
     }
 
-    void test_setDirectionToNull_sizeOfAllNeighborsDoesNotChange() {
-        neighbors.setEast(nullptr);
+    void test_detachEastAfterSettingEast_eastIsNull() {
+        neighbors.setEast(expectedNeighbor);
+        neighbors.detach(expectedNeighbor);
 
-        auto expectedSize = 0;
-        auto actualSize = neighbors.all.size();
-        
-        TS_ASSERT_EQUALS(expectedSize, actualSize);
+        MockNeighbor * expected = nullptr;
+        MockNeighbor * actual = neighbors.getEast();
+
+        TS_ASSERT_EQUALS(expected, actual);
     }
 
     void test_setOneDirection_sizeOfAllNeighborsIsOne() {
-        neighbors.setEast(&expectedNeighbor);
+        neighbors.setEast(expectedNeighbor);
 
         auto expectedSize = 1;
         auto actualSize = neighbors.all.size();
@@ -41,28 +44,28 @@ public:
     }
 
     void test_setEast_getEast() {
-        neighbors.setEast(&expectedNeighbor);
+        neighbors.setEast(expectedNeighbor);
         MockNeighbor const * const actualNeighborAddress = neighbors.getEast();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actualNeighborAddress);
     }
 
     void test_setWest_getWest() {
-        neighbors.setWest(&expectedNeighbor);
+        neighbors.setWest(expectedNeighbor);
         MockNeighbor const * const actualNeighborAddress = neighbors.getWest();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actualNeighborAddress);
     }
 
     void test_setNorth_getNorth() {
-        neighbors.setNorth(&expectedNeighbor);
+        neighbors.setNorth(expectedNeighbor);
         MockNeighbor const * const actualNeighborAddress = neighbors.getNorth();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actualNeighborAddress);
     }
 
     void test_setSouth_getSouth() {
-        neighbors.setSouth(&expectedNeighbor);
+        neighbors.setSouth(expectedNeighbor);
         MockNeighbor const * const actualNeighborAddress = neighbors.getSouth();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actualNeighborAddress);

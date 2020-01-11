@@ -8,7 +8,7 @@
 
 namespace NeighborSelector {
     template<typename NeighborType>
-    NeighborType * select(Neighbors<NeighborType> neighbors) {
+    NeighborType * select(Neighbors<NeighborType> const & neighbors) {
         return neighbors.all.empty() ?
             nullptr :
             RandomSelector::select(neighbors.all).second;
@@ -21,7 +21,6 @@ namespace NeighborSelector {
             if (neighbor != nullptr)
                 validNeighbors.emplace_front(neighbor);
         }
-        //(validNeighbors.emplace_front(...), neighbors);
         
         return validNeighbors.empty() ?
             nullptr :

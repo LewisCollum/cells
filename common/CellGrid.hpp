@@ -15,16 +15,16 @@ namespace CellGrid {
                 Cell & currentCell = grid.at(x, y);
                 
                 if (grid.isWithinBounds(x+1, y))
-                    currentCell.neighbors.setEast(&grid.at(x+1, y));
+                    currentCell.neighbors.setEast(grid.at(x+1, y));
 
                 if (grid.isWithinBounds(x-1, y))
-                    currentCell.neighbors.setWest(&grid.at(x-1, y));
+                    currentCell.neighbors.setWest(grid.at(x-1, y));
 
                 if (grid.isWithinBounds(x, y+1))
-                    currentCell.neighbors.setSouth(&grid.at(x, y+1));                    
+                    currentCell.neighbors.setSouth(grid.at(x, y+1));                    
 
                 if (grid.isWithinBounds(x, y-1))
-                    currentCell.neighbors.setNorth(&grid.at(x, y-1)); 
+                    currentCell.neighbors.setNorth(grid.at(x, y-1)); 
             }
         }
     }

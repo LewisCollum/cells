@@ -29,8 +29,8 @@ public:
     
     void test_selectFromOneValidOneNullDirections_onlyValidSelected() {
         MockNeighbor east, west;
-        neighbors.setEast(&east);
-        neighbors.setWest(&west);
+        neighbors.setEast(east);
+        neighbors.setWest(west);
 
         auto expected = &east;
         auto actual = NeighborSelector::select({
@@ -42,8 +42,8 @@ public:
     
     void test_fromAll_oneNeighborSelectedFromAll() {
         MockNeighbor neighborA, neighborB;
-        neighbors.setEast(&neighborA);
-        neighbors.setWest(&neighborB);
+        neighbors.setEast(neighborA);
+        neighbors.setWest(neighborB);
         
         auto choice = NeighborSelector::select(neighbors);
 
