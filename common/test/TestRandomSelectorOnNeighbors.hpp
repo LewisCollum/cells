@@ -1,26 +1,25 @@
-#ifndef TESTNEIGHBORSELECTOR
-#define TESTNEIGHBORSELECTOR
+#ifndef TESTRANDOMSELECTORONNEIGHBORS
+#define TESTRANDOMSELECTORONNEIGHBORS
 
 #include <cxxtest/TestSuite.h>
-#include "NeighborSelector.hpp"
 #include "Neighbors.hpp"
+#include "RandomSelector.hpp"
 
-struct MockNeighbor{};
-
-class TestNeighborSelector: public CxxTest::TestSuite {
+class TestRandomSelectorOnNeighbors: public CxxTest::TestSuite {
+    struct MockNeighbor{};
     Neighbors<MockNeighbor> neighbors;
     
 public:
     void test_allEmpty_returnNullSelection() {
         MockNeighbor * expected = nullptr;
-        MockNeighbor * actual = NeighborSelector::select(neighbors);
+        MockNeighbor * actual = RandomSelector::select(neighbors);
 
         TS_ASSERT_EQUALS(expected, actual);
     }
     
     void test_allSelectionsNull_returnNull() {
         MockNeighbor * expected = nullptr;
-        MockNeighbor * actual = NeighborSelector::select({
+        MockNeighbor * actual = RandomSelector::select({
                 neighbors.getEast(),
                 neighbors.getNorth()});
 
@@ -33,7 +32,7 @@ public:
         neighbors.setWest(west);
 
         auto expected = &east;
-        auto actual = NeighborSelector::select({
+        auto actual = RandomSelector::select({
                 neighbors.getEast(),
                 neighbors.getNorth()});
 
@@ -45,7 +44,7 @@ public:
         neighbors.setEast(neighborA);
         neighbors.setWest(neighborB);
         
-        auto choice = NeighborSelector::select(neighbors);
+        MockNeighbor * choice = RandomSelector::select(neighbors);
 
         TS_ASSERT((choice == &neighborA) xor (choice == &neighborB));
     }

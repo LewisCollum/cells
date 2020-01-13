@@ -2,14 +2,17 @@
 #define NEIGHBORS
 
 #include <unordered_map>
+#include <forward_list>
+#include <utility>
 
 template<typename NeighborType>
 struct Neighbors {
-
     enum class Direction {NORTH, SOUTH, EAST, WEST};
-
-    std::unordered_map<Direction, NeighborType *> all;
-
+    using key_type = Direction;
+    using mapped_type = NeighborType*;
+    
+    std::unordered_map<key_type, mapped_type> all;
+    
     void setEast(NeighborType & value) { setDirection(Direction::EAST, value); }
     void setWest(NeighborType & value) { setDirection(Direction::WEST, value); }
     void setNorth(NeighborType & value) { setDirection(Direction::NORTH, value); }
@@ -29,14 +32,16 @@ struct Neighbors {
             all.erase(detachable);
     }
 
+    auto begin() { return all.begin(); }
+    auto end() { return all.end(); }
+    auto operator[](auto key){ all[key]; };
+    
 private:
     void setDirection(Direction direction, NeighborType & value) {
-        // Ensure that 'all' doesn't increase in size due to a nullptr being emplaced
         all.emplace(direction, &value);
     }
 
     NeighborType * getDirection(Direction direction) {
-        // Nullptr indicates that a neighbor does not exist.
         return all.contains(direction)?
             all[direction]:
             nullptr;
