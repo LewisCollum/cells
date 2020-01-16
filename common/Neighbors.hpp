@@ -1,51 +1,61 @@
 #ifndef NEIGHBORS
 #define NEIGHBORS
 
-#include <unordered_map>
-#include <forward_list>
+#include <unordered_set>
 #include <utility>
 
 template<typename NeighborType>
 struct Neighbors {
-    enum class Direction {NORTH, SOUTH, EAST, WEST};
-    using key_type = Direction;
-    using mapped_type = NeighborType*;
+    using value_type = NeighborType;
+    using value_pointer = value_type*;
+    using value_reference = value_type&;
+    using reference = Neighbors<value_type>&;
+    using pointer = Neighbors<value_type>*;
     
-    std::unordered_map<key_type, mapped_type> all;
+private:    
+    std::unordered_set<pointer> neighbors;
+    pointer east, west, north, south;
+    value_pointer here;
     
-    void setEast(NeighborType & value) { setDirection(Direction::EAST, value); }
-    void setWest(NeighborType & value) { setDirection(Direction::WEST, value); }
-    void setNorth(NeighborType & value) { setDirection(Direction::NORTH, value); }
-    void setSouth(NeighborType & value) { setDirection(Direction::SOUTH, value); }
+public:
+    Neighbors() : east{nullptr}, west{nullptr}, north{nullptr}, south{nullptr} {}
     
-    NeighborType * getEast() { return getDirection(Direction::EAST); }
-    NeighborType * getWest() { return getDirection(Direction::WEST); }
-    NeighborType * getNorth() { return getDirection(Direction::NORTH); }
-    NeighborType * getSouth() { return getDirection(Direction::SOUTH); }
+    void setEast(reference value) { setDirection(east, value); }
+    void setWest(reference value) { setDirection(west, value); }
+    void setNorth(reference value) { setDirection(north, value); }
+    void setSouth(reference value) { setDirection(south, value); }
 
-    void detach(NeighborType & neighbor) {
-        auto detachable = std::find_if(all.begin(), all.end(), [&](auto pair) {
-            return pair.second == &neighbor;
-        });
+    void setHere(value_reference value) { here = &value; }
+    value_pointer const getHere() { return here; }
 
-        if (detachable != all.end())
-            all.erase(detachable);
+    void unlinkEast() { unlink(east); }
+    void unlinkWest() { unlink(west); }
+    void unlinkNorth() { unlink(north); }
+    void unlinkSouth() { unlink(south); }
+    
+    pointer const getEast() { return east; }
+    pointer const getWest() { return west; }
+    pointer const getNorth() { return north; }
+    pointer const getSouth() { return south; }
+    
+    auto begin() { return neighbors.begin(); }
+    auto end() { return neighbors.end(); }
+    
+private:    
+    void setDirection(pointer & direction, reference value) {
+        if (direction == nullptr) {
+            direction = &value;
+            neighbors.emplace(direction);
+        }
     }
 
-    auto begin() { return all.begin(); }
-    auto end() { return all.end(); }
-    auto operator[](auto key){ all[key]; };
+    void unlink(pointer & direction) {
+        if (direction != nullptr) {
+            neighbors.erase(direction);
+            direction = nullptr;
+        }
+    }
     
-private:
-    void setDirection(Direction direction, NeighborType & value) {
-        all.emplace(direction, &value);
-    }
-
-    NeighborType * getDirection(Direction direction) {
-        return all.contains(direction)?
-            all[direction]:
-            nullptr;
-    }
 };
 
 #endif

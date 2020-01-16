@@ -7,8 +7,11 @@
 #include <iterator>
 
 template<typename Element, size_t columns, size_t rows>
-class Grid {
-    std::array<Element, columns*rows> grid;
+struct Grid {
+    using value_type = Element;
+    
+private:
+    std::array<value_type, columns*rows> grid;
     
 public:
     bool isWithinBounds(size_t x, size_t y) {
