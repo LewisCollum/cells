@@ -6,15 +6,17 @@
 
 template<size_t columns, size_t rows>
 static void aldousBroder(CellGrid<columns, rows> & grid) {
-    size_t unvisited = columns*rows-1;
-    auto * cell = RandomSelector::select(grid.begin(), grid.end());
-    
-    while (unvisited > 0) {
-        auto * choice = RandomSelector::select(cell->neighbors);
-        
+    Cell * cell = RandomSelector::select(grid.begin(), grid.end());
+    while (cell->linker.hasLinks()) cell = RandomSelector::select(grid.begin(), grid.end());
+
+    while (grid.unvisited > 0) {
+        Cell * choice = RandomSelector::select(cell->neighbors);
+
         if (!choice->linker.hasLinks()) {
             cell->linker.link(choice->linker);
-            --unvisited;
+            --grid.unvisited;
+            std::cout << cell->neighbors.size() << std::endl;
+                    
             }
         
         cell = choice;

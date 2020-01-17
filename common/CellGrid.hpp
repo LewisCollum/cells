@@ -7,7 +7,9 @@
 
 template <size_t columns, size_t rows>
 struct CellGrid : Grid<Cell, columns, rows> {
-    CellGrid() {
+    size_t unvisited;
+    
+    CellGrid() : unvisited{columns*rows-1} {
         for (size_t x = 0; x < columns; ++x) {
             for (size_t y = 0; y < rows; ++y) {
                 auto & [neighbors, linker] = this->at(x, y);

@@ -30,7 +30,8 @@ public:
     value_pointer const getWest() { return west; }
     value_pointer const getNorth() { return north; }
     value_pointer const getSouth() { return south; }
-    
+
+    auto size() { return neighbors.size(); }
     auto begin() { return neighbors.begin(); }
     auto end() { return neighbors.end(); }
     
