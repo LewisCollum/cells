@@ -3,22 +3,22 @@
 
 #include "CellGrid.hpp"
 #include "RandomSelector.hpp"
-#include <iostream>
 
-namespace CellGrid {
-    template<size_t columns, size_t rows>
-    static void aldousBroder(CellGrid::Type<columns, rows> & grid) {
-        auto neighbors = RandomSelector::select(grid.neighborGrid);
+template<size_t columns, size_t rows>
+static void aldousBroder(CellGrid<columns, rows> & grid) {
+    size_t unvisited = columns*rows-1;
+    auto * cell = RandomSelector::select(grid.begin(), grid.end());
+    
+    while (unvisited > 0) {
+        auto * choice = RandomSelector::select(cell->neighbors);
         
-        while (grid.unvisited > 0) {
-            auto * neighbor = RandomSelector::select(neighbors);
-            if (!neighbor->getHere()->hasLinks()) {
-                neighbors.getHere()->link(*neighbor->getHere());
-                --grid.unvisited;
+        if (!choice->linker.hasLinks()) {
+            cell->linker.link(choice->linker);
+            --unvisited;
             }
+        
+        cell = choice;
+    }
+}
 
-            neighbors = *neighbor;
-        }
-	}    
-};
 #endif

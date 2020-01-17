@@ -2,54 +2,47 @@
 #define NEIGHBORS
 
 #include <unordered_set>
-#include <utility>
 
 template<typename NeighborType>
 struct Neighbors {
     using value_type = NeighborType;
     using value_pointer = value_type*;
     using value_reference = value_type&;
-    using reference = Neighbors<value_type>&;
-    using pointer = Neighbors<value_type>*;
     
 private:    
-    std::unordered_set<pointer> neighbors;
-    pointer east, west, north, south;
-    value_pointer here;
+    std::unordered_set<value_pointer> neighbors;
+    value_pointer east, west, north, south;
     
 public:
     Neighbors() : east{nullptr}, west{nullptr}, north{nullptr}, south{nullptr} {}
     
-    void setEast(reference value) { setDirection(east, value); }
-    void setWest(reference value) { setDirection(west, value); }
-    void setNorth(reference value) { setDirection(north, value); }
-    void setSouth(reference value) { setDirection(south, value); }
-
-    void setHere(value_reference value) { here = &value; }
-    value_pointer const getHere() { return here; }
+    void setEast(value_reference value) { setDirection(east, value); }
+    void setWest(value_reference value) { setDirection(west, value); }
+    void setNorth(value_reference value) { setDirection(north, value); }
+    void setSouth(value_reference value) { setDirection(south, value); }
 
     void unlinkEast() { unlink(east); }
     void unlinkWest() { unlink(west); }
     void unlinkNorth() { unlink(north); }
     void unlinkSouth() { unlink(south); }
     
-    pointer const getEast() { return east; }
-    pointer const getWest() { return west; }
-    pointer const getNorth() { return north; }
-    pointer const getSouth() { return south; }
+    value_pointer const getEast() { return east; }
+    value_pointer const getWest() { return west; }
+    value_pointer const getNorth() { return north; }
+    value_pointer const getSouth() { return south; }
     
     auto begin() { return neighbors.begin(); }
     auto end() { return neighbors.end(); }
     
 private:    
-    void setDirection(pointer & direction, reference value) {
+    void setDirection(value_pointer & direction, value_reference value) {
         if (direction == nullptr) {
             direction = &value;
             neighbors.emplace(direction);
         }
     }
 
-    void unlink(pointer & direction) {
+    void unlink(value_pointer & direction) {
         if (direction != nullptr) {
             neighbors.erase(direction);
             direction = nullptr;

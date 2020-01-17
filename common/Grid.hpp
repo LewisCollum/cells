@@ -2,9 +2,6 @@
 #define GRID
 
 #include <array>
-#include <ostream>
-#include <string>
-#include <iterator>
 
 template<typename Element, size_t columns, size_t rows>
 struct Grid {

@@ -7,14 +7,14 @@
 class TestNeighbors: public CxxTest::TestSuite {
     struct MockNeighbor{};
     Neighbors<MockNeighbor> neighbors;
-    decltype(neighbors) expectedNeighbor;
+    MockNeighbor expectedNeighbor;
     
 public:
     void test_unlinkEastWithoutSettingEast_nothingChanges() {
         neighbors.unlinkEast();
 
-        decltype(neighbors)::pointer expected = nullptr;
-        decltype(neighbors)::pointer actual = neighbors.getEast();
+        MockNeighbor * expected = nullptr;
+        MockNeighbor * actual = neighbors.getEast();
 
         TS_ASSERT_EQUALS(expected, actual);
     }
@@ -23,15 +23,15 @@ public:
         neighbors.setEast(expectedNeighbor);
         neighbors.unlinkEast();
 
-        decltype(neighbors)::pointer expected = nullptr;
-        decltype(neighbors)::pointer actual = neighbors.getEast();
+        MockNeighbor * expected = nullptr;
+        MockNeighbor * actual = neighbors.getEast();
 
         TS_ASSERT_EQUALS(expected, actual);
     }
 
     void test_doNotSetEast_eastIsNull() {
-        decltype(neighbors)::pointer expected = nullptr;
-        decltype(neighbors)::pointer actual = neighbors.getEast();
+        MockNeighbor * expected = nullptr;
+        MockNeighbor * actual = neighbors.getEast();
         
         TS_ASSERT_EQUALS(expected, actual);
     }
@@ -39,7 +39,7 @@ public:
     void test_setEast_getEast() {
         neighbors.setEast(expectedNeighbor);
 
-        decltype(neighbors)::pointer actual = neighbors.getEast();
+        MockNeighbor * actual = neighbors.getEast();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actual);
     }
@@ -47,7 +47,7 @@ public:
     void test_setWest_getWest() {
         neighbors.setWest(expectedNeighbor);
 
-        decltype(neighbors)::pointer actual = neighbors.getWest();
+        MockNeighbor * actual = neighbors.getWest();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actual);
     }
@@ -55,7 +55,7 @@ public:
     void test_setNorth_getNorth() {
         neighbors.setNorth(expectedNeighbor);
 
-        decltype(neighbors)::pointer actual = neighbors.getNorth();
+        MockNeighbor * actual = neighbors.getNorth();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actual);
     }
@@ -63,7 +63,7 @@ public:
     void test_setSouth_getSouth() {
         neighbors.setSouth(expectedNeighbor);
 
-        decltype(neighbors)::pointer actual = neighbors.getSouth();
+        MockNeighbor * actual = neighbors.getSouth();
         
         TS_ASSERT_EQUALS(&expectedNeighbor, actual);
     }
