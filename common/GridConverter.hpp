@@ -22,7 +22,11 @@ namespace GridConverter {
                 auto & [neighbors, linker] = grid.at(col, row);
 
                 std::string body = "   ";
-                std::string corner = "+";
+                std::string corner = linker.isLinkedTo(neighbors.getEast()->linker) and
+                    neighbors.getEast()->linker.isLinkedTo(neighbors.getEast()->neighbors.getSouth()->linker) and
+                    linker.isLinkedTo(neighbors.getSouth()->linker) and
+                    neighbors.getSouth()->linker.isLinkedTo(neighbors.getSouth()->neighbors.getEast()->linker) ?                    
+                    " " : "+";
                 
                 std::string east_boundary;
                 bool isEast = (col != columns - 1 && linker.isLinkedTo(neighbors.getEast()->linker));

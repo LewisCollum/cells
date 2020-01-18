@@ -72,7 +72,12 @@ namespace RandomSelector {
         
         return RandomSelector::select(valids);
     }    
-    
+
+    // Number
+    auto select(const int from, const int to) {
+        std::uniform_int_distribution<int> distribution(from, to);
+        return distribution(generator);
+    }
 }
 
 

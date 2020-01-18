@@ -61,7 +61,14 @@ public:
         auto isChosen = choice == nullptr;
 
         TS_ASSERT(isChosen);
-    }    
+    }
+
+
+    void test_selectFromIntRange_returnsIntBetweenRange() {
+        int actual = RandomSelector::select(0, 10);
+
+        TS_ASSERT(actual <= 10 and actual >= 0);
+    }
 };
 
 #endif

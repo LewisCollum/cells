@@ -2,24 +2,42 @@
 #define ROOM
 
 #include "CellGrid.hpp"
+#include <iostream>
 
 struct Room {
-    std::pair<size_t, size_t> xBounds;
-    std::pair<size_t, size_t> yBounds;
+    std::pair<int, int> xBounds;
+    std::pair<int, int> yBounds;
 
-    size_t width() {
+    int width() const {
         return xBounds.second-xBounds.first+1;
     }
 
-    size_t height() {
+    int height() const {
         return yBounds.second-yBounds.first+1;
     }
 
-    bool isWithinBounds(size_t x, size_t y) {
+    bool isWithinBounds(int x, int y) {
         return y >= yBounds.first and
             y <= yBounds.second and
             x <= xBounds.second and
             x >= xBounds.first;
+    }
+
+    bool isOverlappingRoom(Room const & room) const {
+        int xDistance = room.xBounds.first - xBounds.first;
+        bool isXOverlapping = xDistance >= 0 ? width() >= xDistance : room.width() >= abs(xDistance);
+        
+        int yDistance = room.yBounds.first - yBounds.first;
+        bool isYOverlapping = yDistance >= 0 ? height() >= yDistance : room.height() >= abs(yDistance);
+        
+        return isXOverlapping and isYOverlapping;
+    }
+
+    template<typename Container>
+    bool isOverlappingRooms(Container rooms) {
+        for (auto const & room : rooms)
+            if (isOverlappingRoom(room)) return true;
+        return false;            
     }
     
     template <size_t columns, size_t rows>
