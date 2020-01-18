@@ -15,9 +15,7 @@ static void aldousBroder(CellGrid<columns, rows> & grid) {
         if (!choice->linker.hasLinks()) {
             cell->linker.link(choice->linker);
             --grid.unvisited;
-            std::cout << cell->neighbors.size() << std::endl;
-                    
-            }
+        }
         
         cell = choice;
     }
