@@ -16,7 +16,7 @@ struct Room {
         return yBounds.second-yBounds.first+1;
     }
 
-    bool isWithinBounds(int x, int y) {
+    bool isWithinBounds(int x, int y) const {
         return y >= yBounds.first and
             y <= yBounds.second and
             x <= xBounds.second and
@@ -34,7 +34,7 @@ struct Room {
     }
 
     template<typename Container>
-    bool isOverlappingRooms(Container rooms) {
+    bool isOverlappingRooms(Container rooms) const {
         for (auto const & room : rooms)
             if (isOverlappingRoom(room)) return true;
         return false;            
@@ -42,9 +42,9 @@ struct Room {
     
     template <size_t columns, size_t rows>
     void cut(CellGrid<columns, rows>& grid) {
-        // onlyBounds perimeter cells
-        for (size_t i = xBounds.first; i <= xBounds.second; ++i) {
-            for (size_t j = yBounds.first; j <= yBounds.second; j += (i==xBounds.first or i==xBounds.second) ? 1 : yBounds.second-yBounds.first) {
+        // only perimeter cells
+        for (int i = xBounds.first; i <= xBounds.second; ++i) {
+            for (int j = yBounds.first; j <= yBounds.second; j += (i==xBounds.first or i==xBounds.second) ? 1 : yBounds.second-yBounds.first) {
                 Cell & cell = grid.at(i, j);
                 if (i == xBounds.first and xBounds.first != 0) {
                     cell.neighbors.getWest()->neighbors.unlinkEast();
@@ -63,19 +63,20 @@ struct Room {
                 } 
             }
         }
-        grid.unvisited -= (xBounds.second-xBounds.first+1)*(yBounds.second-yBounds.first+1);
     }
 
     template <size_t columns, size_t rows>
     void fill(CellGrid<columns, rows>& grid) {
-        for (size_t i = xBounds.first; i <= xBounds.second; ++i) {
-            for (size_t j = yBounds.first + i%2; j <= yBounds.second; j += 2) {
+        for (int i = xBounds.first; i <= xBounds.second; ++i) {
+            for (int j = yBounds.first; j <= yBounds.second; ++j) {
                 auto & [neighbors, linker] = grid.at(i, j);
-                for (auto * neighbor : neighbors) {
-                    linker.link(neighbor->linker);
-                }
+                if (neighbors.getNorth() != nullptr and j > yBounds.first)
+                    linker.link(neighbors.getNorth()->linker);
+                if (neighbors.getEast() != nullptr and i < xBounds.second)
+                    linker.link(neighbors.getEast()->linker);
             }
         }
+        grid.unvisited -= width()*height();
     }
 };
 
