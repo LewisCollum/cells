@@ -1,3 +1,3 @@
 TARGET = sandbox
-ROOT = ../..
+ROOT = ..
 include $(ROOT)/mk/all.mk
