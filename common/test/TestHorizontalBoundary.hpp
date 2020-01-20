@@ -4,25 +4,18 @@
 #include <cxxtest/TestSuite.h>
 #include "BoundaryLine.hpp"
 #include "Coordinates.hpp"
+#include "PointMagnitude.hpp"
 
 class TestHorizontalBoundaryLine : public CxxTest::TestSuite {
-    Coordinates const boundaryOrigin = {1,2};
-    int const boundaryLength = 10;
-    HorizontalBoundaryLine boundary{{origin: boundaryOrigin, magnitude: boundaryLength}};
-
+    static constexpr PointMagnitude line{origin:{x:1,y:2}, magnitude:10};
+    HorizontalBoundaryLine<line> boundaryLine{};
+    
 public:
-    void test_stepCoordinateSize_isLengthOfBoundary() {
-        auto expected = boundaryLength;
-        auto actual = boundary.size();
-
-        TS_ASSERT_EQUALS(expected, actual);
-    }
-
     void test_stepCoordinates_allFirstRowEqualsOriginY() {
-        auto expected = boundaryOrigin.y;
+        auto expected = line.origin.y;
         bool isExpected = true;
         
-        for (auto lateralCoordinates: boundary)
+        for (auto lateralCoordinates: boundaryLine)
             if (lateralCoordinates.first.y != expected)
                 isExpected = false;
 
@@ -30,10 +23,10 @@ public:
     }
 
     void test_stepCoordinates_allSecondRowEqualsOriginYPlusOne() {
-        auto expected = boundaryOrigin.y+1;
+        auto expected = line.origin.y+1;
         bool isExpected = true;
         
-        for (auto lateralCoordinates: boundary)
+        for (auto lateralCoordinates: boundaryLine)
             if (lateralCoordinates.second.y != expected)
                 isExpected = false;
 
@@ -43,7 +36,7 @@ public:
     void test_stepCoordinates_columnsHaveSameX() {
         bool isExpected = true;
         
-        for (auto lateralCoordinates: boundary) 
+        for (auto lateralCoordinates: boundaryLine) 
             if (lateralCoordinates.first.x != lateralCoordinates.second.x)
                 isExpected = false;
 

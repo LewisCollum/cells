@@ -6,13 +6,12 @@
 #include "Coordinates.hpp"
 
 class TestVerticalBoundaryLine : public CxxTest::TestSuite {
-    Coordinates const boundaryOrigin = {1,2};
-    int const boundaryLength = 10;
-    VerticalBoundaryLine boundary{{origin: boundaryOrigin, magnitude: boundaryLength}};
+    static constexpr PointMagnitude line{origin:{x:1,y:2}, magnitude:10};
+    VerticalBoundaryLine<line> boundary{};
 
 public:
     void test_stepCoordinates_allFirstColumnEqualsOriginX() {
-        auto expected = boundaryOrigin.x;
+        auto expected = line.origin.x;
         bool isExpected = true;
         
         for (auto lateralCoordinates: boundary)
@@ -23,7 +22,7 @@ public:
     }
 
     void test_stepCoordinates_allSecondColumnEqualsOriginXPlusOne() {
-        auto expected = boundaryOrigin.x+1;
+        auto expected = line.origin.x+1;
         bool isExpected = true;
         
         for (auto lateralCoordinates: boundary)
