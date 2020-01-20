@@ -1,13 +1,14 @@
-#ifndef TESTHORIZONTALBOUNDARY
-#define TESTHORIZONTALBOUNDARY
+#ifndef TESTHORIZONTALBOUNDARYLINE
+#define TESTHORIZONTALBOUNDARYLINE
 
-#include "Boundary.hpp"
+#include <cxxtest/TestSuite.h>
+#include "BoundaryLine.hpp"
 #include "Coordinates.hpp"
 
-class TestHorizontalBoundary : public CxxTest::TestSuite {
+class TestHorizontalBoundaryLine : public CxxTest::TestSuite {
     Coordinates const boundaryOrigin = {1,2};
     int const boundaryLength = 10;
-    HorizontalBoundary boundary{boundaryOrigin, boundaryLength};
+    HorizontalBoundaryLine boundary{{origin: boundaryOrigin, magnitude: boundaryLength}};
 
 public:
     void test_stepCoordinateSize_isLengthOfBoundary() {

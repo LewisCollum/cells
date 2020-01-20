@@ -1,14 +1,14 @@
-#ifndef TESTVERTICALBOUNDARY
-#define TESTVERTICALBOUNDARY
+#ifndef TESTVERTICALBOUNDARYLINE
+#define TESTVERTICALBOUNDARYLINE
 
 #include <cxxtest/TestSuite.h>
-#include "Boundary.hpp"
+#include "BoundaryLine.hpp"
+#include "Coordinates.hpp"
 
-
-class TestVerticalBoundary : public CxxTest::TestSuite {
+class TestVerticalBoundaryLine : public CxxTest::TestSuite {
     Coordinates const boundaryOrigin = {1,2};
     int const boundaryLength = 10;
-    VerticalBoundary boundary{boundaryOrigin, boundaryLength};
+    VerticalBoundaryLine boundary{{origin: boundaryOrigin, magnitude: boundaryLength}};
 
 public:
     void test_stepCoordinates_allFirstColumnEqualsOriginX() {
