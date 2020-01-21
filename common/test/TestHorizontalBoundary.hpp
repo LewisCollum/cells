@@ -4,15 +4,14 @@
 #include <cxxtest/TestSuite.h>
 #include "BoundaryLine.hpp"
 #include "Coordinates.hpp"
-#include "PointMagnitude.hpp"
 
 class TestHorizontalBoundaryLine : public CxxTest::TestSuite {
-    static constexpr PointMagnitude line{origin:{x:1,y:2}, magnitude:10};
-    HorizontalBoundaryLine<line> boundaryLine{};
+    Coordinates origin{x:1,y:2};
+    HorizontalBoundaryLine<10> boundaryLine{origin};
     
 public:
     void test_stepCoordinates_allFirstRowEqualsOriginY() {
-        auto expected = line.origin.y;
+        auto expected = origin.y;
         bool isExpected = true;
         
         for (auto lateralCoordinates: boundaryLine)
@@ -23,7 +22,7 @@ public:
     }
 
     void test_stepCoordinates_allSecondRowEqualsOriginYPlusOne() {
-        auto expected = line.origin.y+1;
+        auto expected = origin.y+1;
         bool isExpected = true;
         
         for (auto lateralCoordinates: boundaryLine)

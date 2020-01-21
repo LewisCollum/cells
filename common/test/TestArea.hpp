@@ -6,18 +6,22 @@
 #include "RectangularLimits.hpp"
 #include "BoundaryLine.hpp"
 
+template <RectangularLimits limits>
 class Area {
-    RectangularLimits const limits;
+    constexpr int width() {
+        return limits.x.second - limits.x.first + 1;
+    }
 
-    VerticalBoundaryLine const westBoundaryLine;
+    constexpr int height() {
+        return limits.y.second - limits.y.first + 1;
+    }
+        
+    VerticalBoundaryLine<limits.y.second - limits.y.first + 1> westBoundaryLine{{limits.x.first-1, limits.y.first}};
     // VerticalBoundaryLine const eastBoundaryLine;
     // HorizontalBoundaryLine const northBoundaryLine;
     // HorizontalBoundaryLine const southBoundaryLine;
     
 public:
-    constexpr Area(RectangularLimits limits) :
-        limits{limits},
-        westBoundaryLine{makeWestBoundaryLine()} {}
 
     // constexpr Area(RectangularLimits limits) :
     //     limits{limits},
@@ -26,15 +30,8 @@ public:
     //     northBoundaryLine{makeNorthBoundaryLine()},
     //     southBoundaryLine{makeSouthBoundaryLine()} {}
     
-    constexpr int width() const {
-        return limits.x.second - limits.x.first + 1;
-    }
 
-    constexpr int height() const {
-        return limits.y.second - limits.y.first + 1;
-    }
-    
-    auto boundaryLinesWithinLimits(RectangularLimits limits) {
+    auto boundaryLinesWithinLimits(RectangularLimits otherLimits) {
         std::tuple boundaryLines{};
         // if(bool isWest = this->limits.x.first > limits.x.first)            
         //     std::tuple_cat(boundaryLines, westBoundaryLine);
@@ -42,14 +39,13 @@ public:
         return boundaryLines;
     }
 private:
-    constexpr VerticalBoundaryLine makeWestBoundaryLine() const {
-        constexpr PointMagnitude westLine{
-          origin: {x: limits.x.first-1, y: limits.y.first},
-          magnitude: 1 //height()
-        };
+    // PointMagnitude makeWestLine() {
+    //     return {
+    //       origin: {x:limits.x.first-1, y:limits.y.first},
+    //       magnitude: 1 //height()
+    //     };
+    // }
 
-        return VerticalBoundaryLine{westLine};
-    }
 
     // constexpr VerticalBoundaryLine makeEastBoundaryLine() const {
     //     constexpr PointMagnitude eastLine{
@@ -81,7 +77,7 @@ private:
 
 class TestArea : public CxxTest::TestSuite {
     constexpr static RectangularLimits const areaLimits{x: {0,2}, y: {0,3}};
-    constexpr static Area const area{areaLimits};
+    constexpr static Area<areaLimits> area{};
 
 public:
     void test_() {}
