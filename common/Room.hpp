@@ -2,20 +2,17 @@
 #define ROOM
 
 #include "CellGrid.hpp"
-#include <iostream>
 
+
+
+template <RectangularLimits limits>
 struct Room {
-    std::pair<int, int> xBounds;
-    std::pair<int, int> yBounds;
+    RectangularBoundary<limits> boundary;
 
-    int width() const {
-        return xBounds.second-xBounds.first+1;
+    void operator()(CellGrid & grid) {
+        for
     }
-
-    int height() const {
-        return yBounds.second-yBounds.first+1;
-    }
-
+    
     bool isWithinBounds(int x, int y) const {
         return y >= yBounds.first and
             y <= yBounds.second and
