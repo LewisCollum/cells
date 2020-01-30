@@ -1,12 +1,12 @@
-#ifndef TESTGRIDBOUNDSCHECKING
-#define TESTGRIDBOUNDSCHECKING
+#ifndef RECTANGLE_TESTGRIDBOUNDSCHECKING
+#define RECTANGLE_TESTGRIDBOUNDSCHECKING
 
 #include <cxxtest/TestSuite.h>
 #include "Grid.hpp"
 
 class TestGridBoundsChecking: public CxxTest::TestSuite {
     struct MockElement{};    
-    Grid<MockElement, 2, 1> grid;
+    rectangle::Grid<MockElement, 2, 1> grid;
     
 public:
     void test_size() {
@@ -52,7 +52,7 @@ public:
     }
     
     void tearDown() {
-        grid = Grid<MockElement, 2, 1>{};
+        grid = rectangle::Grid<MockElement, 2, 1>{};
     }
 };
 

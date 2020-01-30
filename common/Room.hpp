@@ -3,15 +3,13 @@
 
 #include "CellGrid.hpp"
 
-
-
 template <RectangularLimits limits>
 struct Room {
     RectangularBoundary<limits> boundary;
 
-    void operator()(CellGrid & grid) {
-        for
-    }
+    // void operator()(CellGrid & grid) {
+    //     for
+    // }
     
     bool isWithinBounds(int x, int y) const {
         return y >= yBounds.first and

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+src="$1"
+srcFile="$1.hpp"
+
+function error() { echo "$1"; exit; }
+[[ -f "$srcFile" ]] && error "Source file already exists."
+
+cat >> "$srcFile" <<EOF
+#ifndef ${src^^}
+#define ${src^^}
+
+class ${src} {
+
+};
+
+#endif
+EOF
