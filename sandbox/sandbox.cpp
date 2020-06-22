@@ -14,7 +14,7 @@ int main() {
     }
     
     AldousBroder::link(aldousGrid);
-	std::cout << GridConverter::gridToString(aldousGrid);
+    std::cout << GridConverter::gridToString(aldousGrid);
 
     cell::Grid<10, 10> binaryGrid;
     BinaryTree::link(binaryGrid);
