@@ -1,3 +1,6 @@
+BUILD_DIR = build
+COMMON = $(ROOT)/common
+
 .DEFAULT_GOAL = $(BUILD_DIR)/$(TARGET)
 .SECONDARY: $(OBJS)
 

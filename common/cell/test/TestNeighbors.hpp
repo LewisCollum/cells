@@ -2,11 +2,11 @@
 #define TESTNEIGHBORS
 
 #include <cxxtest/TestSuite.h>
-#include "Neighbors.hpp"
+#include "cell/Neighbors.hpp"
 
 class TestNeighbors: public CxxTest::TestSuite {
     struct MockNeighbor{};
-    Neighbors<MockNeighbor> neighbors;
+    cell::Neighbors<MockNeighbor> neighbors;
     MockNeighbor expectedNeighbor;
     
 public:
@@ -69,7 +69,7 @@ public:
     }
 
     void tearDown() {
-        neighbors = Neighbors<MockNeighbor>{};
+        neighbors = cell::Neighbors<MockNeighbor>{};
     }
 };
 

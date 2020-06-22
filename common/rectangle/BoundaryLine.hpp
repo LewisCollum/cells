@@ -1,8 +1,9 @@
 #ifndef RECTANGLE_BOUNDARYLINE
 #define RECTANGLE_BOUNDARYLINE
 
-#include <array>
-#include "Coordinates.hpp"
+#include <vector>
+#include <utility>
+#include "rectangle/Coordinates.hpp"
 
 namespace rectangle {
     using LateralCoordinates = std::pair<
@@ -10,13 +11,14 @@ namespace rectangle {
         rectangle::Coordinates>;
 
     
-    template <int length, bool isHorizontal, bool isVertical = !isHorizontal>
+    template <bool isHorizontal, bool isVertical = !isHorizontal>
     class BoundaryLine {
-        rectangle::Coordinates origin;
-        std::array<LateralCoordinates, length> boundaryLine;
+        rectangle::Coordinates const origin;
+        int const length;
+        std::vector<LateralCoordinates> boundaryLine;
 
     public:
-        constexpr BoundaryLine(rectangle::Coordinates origin) : origin{origin}, boundaryLine{} {
+        BoundaryLine(rectangle::Coordinates origin, int length) : origin{origin}, length{length} {
             makeBoundaryLine();
         }
 
@@ -24,25 +26,30 @@ namespace rectangle {
         auto const end() const { return boundaryLine.end(); }
 
     private:
-        constexpr void makeBoundaryLine() requires isHorizontal {
+        void makeBoundaryLine() requires isHorizontal {
             for (int i = 0; i < length; ++i) {
-                boundaryLine[i].first = {origin.x + i, origin.y};
-                boundaryLine[i].second = {origin.x + i, origin.y+1};
+                LateralCoordinates coordinates = {                
+                  first: {origin.x + i, origin.y},
+                  second: {origin.x + i, origin.y+1}};
+
+                boundaryLine.emplace_back(coordinates);
             }
         }
     
-        constexpr void makeBoundaryLine() requires isVertical {
+        void makeBoundaryLine() requires isVertical {
             for (int i = 0; i < length; ++i) {
-                boundaryLine[i].first = {origin.x, origin.y + i};
-                boundaryLine[i].second = {origin.x+1, origin.y + i};
+                LateralCoordinates coordinates = {
+                  first: {origin.x, origin.y + i},
+                  second: {origin.x+1, origin.y + i}};
+                
+                boundaryLine.emplace_back(coordinates);
             }
         }
     };
 
-    template <int length>
-    using HorizontalBoundaryLine = BoundaryLine<length, true>;
+    using HorizontalBoundaryLine = BoundaryLine<true>;
+    using VerticalBoundaryLine = BoundaryLine<false>;
 
-    template <int length>
-    using VerticalBoundaryLine = BoundaryLine<length, false>;    
+    using BoundaryLineTypes = std::variant<VerticalBoundaryLine, HorizontalBoundaryLine>;    
 }
 #endif

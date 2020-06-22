@@ -2,7 +2,7 @@
 #define RECTANGLE_TESTGRIDBOUNDSCHECKING
 
 #include <cxxtest/TestSuite.h>
-#include "Grid.hpp"
+#include "rectangle/Grid.hpp"
 
 class TestGridBoundsChecking: public CxxTest::TestSuite {
     struct MockElement{};    

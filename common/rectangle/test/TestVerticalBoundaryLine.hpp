@@ -2,12 +2,12 @@
 #define RECTANGLE_TESTVERTICALBOUNDARYLINE
 
 #include <cxxtest/TestSuite.h>
-#include "BoundaryLine.hpp"
-#include "Coordinates.hpp"
+#include "rectangle/BoundaryLine.hpp"
+#include "rectangle/Coordinates.hpp"
 
 class TestVerticalBoundaryLine : public CxxTest::TestSuite {
-    rectangle::Coordinates origin{x:1,y:2};
-    rectangle::VerticalBoundaryLine<10> boundary{origin};
+    rectangle::Coordinates const origin{x:1,y:2};
+    rectangle::VerticalBoundaryLine const boundary{origin, 10};
 
 public:
     void test_stepCoordinates_allFirstColumnEqualsOriginX() {

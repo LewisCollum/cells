@@ -2,13 +2,15 @@
 #define RECTANGLE_LIMITS
 
 #include <utility>
-#include "Coordinates.hpp"
+#include "rectangle/Coordinates.hpp"
 
 namespace rectangle {
     struct Limits {
         std::pair<int, int> x;
         std::pair<int, int> y;
 
+        constexpr Limits(std::pair<int, int> x, std::pair<int, int> y) : x{x}, y{y} {}
+        
         constexpr int width() const {
             return x.second - x.first + 1;
         }
@@ -44,6 +46,6 @@ namespace rectangle {
     // };
     
     // using Limits = Grid<int, 2, 2>;
-};
+}
 
 #endif

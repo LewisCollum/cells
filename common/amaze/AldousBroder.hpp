@@ -1,24 +1,32 @@
 #ifndef ALDOUSBRODER
 #define ALDOUSBRODER
 
-#include "CellGrid.hpp"
+#include "cell/Cell.hpp"
+#include "cell/Neighbors.hpp"
+#include "cell/Grid.hpp"
 #include "RandomSelector.hpp"
 
-template<size_t columns, size_t rows>
-static void aldousBroder(CellGrid<columns, rows> & grid) {
-    Cell * cell = RandomSelector::select(grid.begin(), grid.end());
-    while (cell->linker.hasLinks()) cell = RandomSelector::select(grid.begin(), grid.end());
+namespace AldousBroder {
+    cell::Cell * neighborSelector(cell::Neighbors<cell::Cell> & neighbors) {
+        return RandomSelector::select(neighbors);
+    }
 
-    while (grid.unvisited > 0) {
-        Cell * choice = RandomSelector::select(cell->neighbors);
+    template<size_t columns, size_t rows>
+    void link(cell::Grid<columns, rows> & grid) {
+        cell::Cell * cell = RandomSelector::select(grid.begin(), grid.end());
+        while (cell->hasLinks())
+            cell = RandomSelector::select(grid.begin(), grid.end());
 
-        if (!choice->linker.hasLinks()) {
-            cell->linker.link(choice->linker);
-            --grid.unvisited;
-        }
+        while (grid.unvisited > 0) {
+            cell::Cell * choice = cell->selectNeighbor(neighborSelector);
+
+            if (!choice->hasLinks()) {
+                cell->link(*choice);
+                --grid.unvisited;
+            }
         
-        cell = choice;
+            cell = choice;
+        }
     }
 }
-
 #endif

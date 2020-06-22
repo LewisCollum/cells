@@ -1,13 +1,13 @@
 #ifndef GRIDCONVERTER
 #define GRIDCONVERTER
 
-#include "CellGrid.hpp"
+#include "cell/Grid.hpp"
 #include <sstream>
 #include <string>
 
 namespace GridConverter {
     template<size_t columns, size_t rows>
-    static constexpr std::string gridToString(CellGrid<columns, rows> & grid) {
+    static constexpr std::string gridToString(cell::Grid<columns, rows> & grid) {
         std::stringstream output;
         
         output << "+";
@@ -19,13 +19,14 @@ namespace GridConverter {
             std::string bottom = "+";
 
             for (size_t col = 0; col != columns; ++col) {
+                auto & cell = grid.at(col, row);
                 auto & [neighbors, linker] = grid.at(col, row);
 
                 std::string body = "   ";
-                std::string corner = linker.isLinkedTo(neighbors.getEast()->linker) and
-                    neighbors.getEast()->linker.isLinkedTo(neighbors.getEast()->neighbors.getSouth()->linker) and
-                    linker.isLinkedTo(neighbors.getSouth()->linker) and
-                    neighbors.getSouth()->linker.isLinkedTo(neighbors.getSouth()->neighbors.getEast()->linker) ?                    
+                std::string corner = cell.isLinkedToEast() and
+                    cell.isEastLinkedToSouthEast() and
+                    cell.isLinkedToSouth() and
+                    cell.isSouthLinkedToSouthEast() ?
                     " " : "+";
                 
                 std::string east_boundary;
@@ -45,7 +46,7 @@ namespace GridConverter {
         }
         
         return output.str();
-    };
-};
+    }
+}
 
 #endif

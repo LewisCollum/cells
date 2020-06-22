@@ -1,9 +1,9 @@
 #include <cxxtest/TestSuite.h>
-#include "Linker.hpp"
+#include "cell/Linker.hpp"
 
 class TestForwardLinker: public CxxTest::TestSuite {
-    ForwardLinker linkerA;
-    ForwardLinker linkerB;
+    cell::ForwardLinker linkerA;
+    cell::ForwardLinker linkerB;
 
 public:    
     void test_linkerALinkToLinkerB_linkerAIsLinkedToLinkerB() {
@@ -36,7 +36,7 @@ public:
     }
     
     void tearDown() {
-        linkerA = ForwardLinker();
-        linkerB = ForwardLinker();
+        linkerA = cell::ForwardLinker();
+        linkerB = cell::ForwardLinker();
     }
 };

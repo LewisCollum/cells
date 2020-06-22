@@ -1,58 +1,59 @@
 #ifndef ROOM
 #define ROOM
 
-#include "CellGrid.hpp"
+#include "cell/Grid.hpp"
+#include "rectangle/Limits.hpp"
+#include "rectangle/Boundary.hpp"
 
-template <RectangularLimits limits>
-struct Room {
-    RectangularBoundary<limits> boundary;
+class Room {
+    rectangle::Limits limits;
+    rectangle::Boundary boundary;
 
-    // void operator()(CellGrid & grid) {
-    //     for
-    // }
+public:
+    Room(rectangle::Limits const & limits) : limits{limits}, boundary{limits} {}
     
     bool isWithinBounds(int x, int y) const {
-        return y >= yBounds.first and
-            y <= yBounds.second and
-            x <= xBounds.second and
-            x >= xBounds.first;
+        return y >= limits.y.first and
+            y <= limits.y.second and
+            x <= limits.x.second and
+            x >= limits.x.first;
     }
 
     bool isOverlappingRoom(Room const & room) const {
-        int xDistance = room.xBounds.first - xBounds.first;
-        bool isXOverlapping = xDistance >= 0 ? width() >= xDistance : room.width() >= abs(xDistance);
+        int xDistance = room.limits.x.first - limits.x.first;
+        bool isXOverlapping = xDistance >= 0 ? limits.width() >= xDistance : room.limits.width() >= abs(xDistance);
         
-        int yDistance = room.yBounds.first - yBounds.first;
-        bool isYOverlapping = yDistance >= 0 ? height() >= yDistance : room.height() >= abs(yDistance);
+        int yDistance = room.limits.y.first - limits.y.first;
+        bool isYOverlapping = yDistance >= 0 ? limits.height() >= yDistance : room.limits.height() >= abs(yDistance);
         
         return isXOverlapping and isYOverlapping;
     }
 
     template<typename Container>
-    bool isOverlappingRooms(Container rooms) const {
+    bool isOverlappingRooms(Container const & rooms) const {
         for (auto const & room : rooms)
             if (isOverlappingRoom(room)) return true;
         return false;            
     }
     
     template <size_t columns, size_t rows>
-    void cut(CellGrid<columns, rows>& grid) {
+    void cut(cell::Grid<columns, rows>& grid) {
         // only perimeter cells
-        for (int i = xBounds.first; i <= xBounds.second; ++i) {
-            for (int j = yBounds.first; j <= yBounds.second; j += (i==xBounds.first or i==xBounds.second) ? 1 : yBounds.second-yBounds.first) {
-                Cell & cell = grid.at(i, j);
-                if (i == xBounds.first and xBounds.first != 0) {
+        for (int i = limits.x.first; i <= limits.x.second; ++i) {
+            for (int j = limits.y.first; j <= limits.y.second; j += (i==limits.x.first or i==limits.x.second) ? 1 : limits.y.second-limits.y.first) {
+                auto & cell = grid.at(i, j);
+                if (i == limits.x.first and limits.x.first != 0) {
                     cell.neighbors.getWest()->neighbors.unlinkEast();
                     cell.neighbors.unlinkWest();
-                } else if (i == xBounds.second and xBounds.second != columns-1) {
+                } else if (i == limits.x.second and limits.x.second != columns-1) {
                     cell.neighbors.getEast()->neighbors.unlinkWest();
                     cell.neighbors.unlinkEast();
                 }
 
-                if (j == yBounds.first and yBounds.first != 0) {
+                if (j == limits.y.first and limits.y.first != 0) {
                     cell.neighbors.getNorth()->neighbors.unlinkSouth();
                     cell.neighbors.unlinkNorth();
-                } else if (j == yBounds.second and yBounds.second != rows-1) {
+                } else if (j == limits.y.second and limits.y.second != rows-1) {
                     cell.neighbors.getSouth()->neighbors.unlinkNorth();
                     cell.neighbors.unlinkSouth();
                 } 
@@ -61,17 +62,17 @@ struct Room {
     }
 
     template <size_t columns, size_t rows>
-    void fill(CellGrid<columns, rows>& grid) {
-        for (int i = xBounds.first; i <= xBounds.second; ++i) {
-            for (int j = yBounds.first; j <= yBounds.second; ++j) {
+    void fill(cell::Grid<columns, rows>& grid) {
+        for (int i = limits.x.first; i <= limits.x.second; ++i) {
+            for (int j = limits.y.first; j <= limits.y.second; ++j) {
                 auto & [neighbors, linker] = grid.at(i, j);
-                if (neighbors.getNorth() != nullptr and j > yBounds.first)
+                if (neighbors.getNorth() != nullptr and j > limits.y.first)
                     linker.link(neighbors.getNorth()->linker);
-                if (neighbors.getEast() != nullptr and i < xBounds.second)
+                if (neighbors.getEast() != nullptr and i < limits.x.second)
                     linker.link(neighbors.getEast()->linker);
             }
         }
-        grid.unvisited -= width()*height();
+        grid.unvisited -= limits.width()*limits.height();
     }
 };
 

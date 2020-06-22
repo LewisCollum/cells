@@ -2,18 +2,18 @@
 #define TESTBOUNDARY
 
 #include <cxxtest/TestSuite.h>
-#include "Boundary.hpp"
+#include "rectangle/Boundary.hpp"
 
 class TestBoundary : public CxxTest::TestSuite {
-    static constexpr rectangle::Limits boundaryLimits{x:{0,2}, y:{0,2}};
-    static constexpr rectangle::Boundary<boundaryLimits> boundary{};
+    rectangle::Limits const boundaryLimits{x:{0,2}, y:{0,2}};
+    rectangle::Boundary const boundary{boundaryLimits};
     
 public:
     void test_sizeOfLateralCoordinates() {
         auto expectedSize = 12;
         auto actualSize = 0;
         
-        boundary.forEachLateralCoordinates([&](auto lateralCoordinates){
+        boundary.forEachLateralCoordinates([&]([[maybe_unused]] auto){
             ++actualSize;
         });
 

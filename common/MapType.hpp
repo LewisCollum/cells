@@ -10,7 +10,7 @@ namespace MapType {
     
         template<typename T>
         struct isMapType<T, MapType<T>> : std::true_type { };
-    };   
+    }
 
     template<typename T>
     struct isMapType : detail::isMapType<T>::type {};    

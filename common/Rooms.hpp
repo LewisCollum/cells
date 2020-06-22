@@ -1,10 +1,12 @@
 #ifndef ROOMS
 #define ROOMS
 
-#include <iostream>
 #include <vector>
+#include <memory>
+
 #include "Room.hpp"
 #include "RandomSelector.hpp"
+#include "rectangle/Limits.hpp"
 
 namespace Rooms{
     using container_type = std::vector<Room>;
@@ -17,15 +19,16 @@ namespace Rooms{
             int xRandom = RandomSelector::select(0, width-roomWidth);
             int yRandom = RandomSelector::select(0, height-roomHeight);
 
-            Room roomCandidate = Room{
-              xBounds: {xRandom,xRandom+roomWidth-1},
-              yBounds: {yRandom,yRandom+roomHeight-1}};
+            rectangle::Limits limits = {
+              x: {xRandom,xRandom+roomWidth-1},
+              y: {yRandom,yRandom+roomHeight-1}};
+            Room roomCandidate(limits);
 
             if (!roomCandidate.isOverlappingRooms(rooms))
                 rooms.emplace_back(roomCandidate);
         }
         return rooms;
     }
-};
+}
 
 #endif

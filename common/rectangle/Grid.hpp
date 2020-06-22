@@ -2,7 +2,7 @@
 #define RECTANGLE_GRID
 
 #include <array>
-#include "Coordinates.hpp"
+#include "rectangle/Coordinates.hpp"
 
 namespace rectangle {
     template<typename Element, size_t columns, size_t rows>

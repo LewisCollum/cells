@@ -1,9 +1,9 @@
 #include <cxxtest/TestSuite.h>
-#include "Linker.hpp"
+#include "cell/Linker.hpp"
 
 class TestBidirectionalLinker: public CxxTest::TestSuite {
-    BidirectionalLinker linkerA;
-    BidirectionalLinker linkerB;
+    cell::BidirectionalLinker linkerA;
+    cell::BidirectionalLinker linkerB;
 
 public:    
     void test_linkerALinkToLinkerB_linkerBIsLinkedToLinkerA() {
@@ -13,7 +13,7 @@ public:
     }
 
     void tearDown() {
-        linkerA = BidirectionalLinker();
-        linkerB = BidirectionalLinker();
+        linkerA = cell::BidirectionalLinker();
+        linkerB = cell::BidirectionalLinker();
     }
 };
