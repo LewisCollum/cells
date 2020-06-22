@@ -18,7 +18,7 @@ int main() {
 
     cell::Grid<10, 10> binaryGrid;
     BinaryTree::link(binaryGrid);
-	std::cout << GridConverter::gridToString(binaryGrid);
+    std::cout << GridConverter::gridToString(binaryGrid);
     
-	return 0;
+    return 0;
 }
