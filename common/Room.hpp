@@ -38,24 +38,38 @@ public:
     
     template <size_t columns, size_t rows>
     void cut(cell::Grid<columns, rows>& grid) {
+        bool isTouchingLeftBorder = limits.x.first == 0;
+        bool isTouchingRightBorder = limits.x.second == columns - 1;     
+        bool isTouchingTopBorder = limits.y.first == 0;
+        bool isTouchingBottomBorder = limits.y.second == rows - 1;
+
         // only perimeter cells
         for (int i = limits.x.first; i <= limits.x.second; ++i) {
-            for (int j = limits.y.first; j <= limits.y.second; j += (i==limits.x.first or i==limits.x.second) ? 1 : limits.y.second-limits.y.first) {
+            bool isFirstColumnToCut = i == limits.x.first;
+            bool isLastColumnToCut = i == limits.x.second;
+
+            int rowIncrement = (isFirstColumnToCut or isLastColumnToCut) ?
+                1 : limits.y.second-limits.y.first;
+            
+            for (int j = limits.y.first; j <= limits.y.second; j += rowIncrement) {
                 auto & cell = grid.at(i, j);
-                if (i == limits.x.first and limits.x.first != 0) {
-                    cell.neighbors.getWest()->neighbors.unlinkEast();
-                    cell.neighbors.unlinkWest();
-                } else if (i == limits.x.second and limits.x.second != columns-1) {
-                    cell.neighbors.getEast()->neighbors.unlinkWest();
-                    cell.neighbors.unlinkEast();
+                
+                if (isFirstColumnToCut and not isTouchingLeftBorder) {
+                    cell.west->east.clear();
+                    cell.west.clear();
+                } else if (isLastColumnToCut and not isTouchingRightBorder) {
+                    cell.east->west.clear();
+                    cell.east.clear();
                 }
 
-                if (j == limits.y.first and limits.y.first != 0) {
-                    cell.neighbors.getNorth()->neighbors.unlinkSouth();
-                    cell.neighbors.unlinkNorth();
-                } else if (j == limits.y.second and limits.y.second != rows-1) {
-                    cell.neighbors.getSouth()->neighbors.unlinkNorth();
-                    cell.neighbors.unlinkSouth();
+                bool isFirstRowToCut = j == limits.y.first;
+                bool isLastRowToCut = j == limits.y.second;
+                if (isFirstRowToCut and not isTouchingTopBorder) {
+                    cell.north->south.clear();
+                    cell.north.clear();
+                } else if (isLastRowToCut and not isTouchingBottomBorder) {
+                    cell.south->north.clear();
+                    cell.south.clear();
                 } 
             }
         }
@@ -65,11 +79,11 @@ public:
     void fill(cell::Grid<columns, rows>& grid) {
         for (int i = limits.x.first; i <= limits.x.second; ++i) {
             for (int j = limits.y.first; j <= limits.y.second; ++j) {
-                auto & [neighbors, linker] = grid.at(i, j);
-                if (neighbors.getNorth() != nullptr and j > limits.y.first)
-                    linker.link(neighbors.getNorth()->linker);
-                if (neighbors.getEast() != nullptr and i < limits.x.second)
-                    linker.link(neighbors.getEast()->linker);
+                cell::Cell & cell = grid.at(i, j);
+                if (cell.north.get() != nullptr and j > limits.y.first)
+                    cell.link(cell.north);
+                if (cell.east.get() != nullptr and i < limits.x.second)
+                    cell.link(cell.east);
             }
         }
         grid.unvisited -= limits.width()*limits.height();

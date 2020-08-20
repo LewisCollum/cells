@@ -11,7 +11,7 @@ public:
     void test_topLeftHasEast() {
         cell::Cell * expected = &grid.at(1, 0);
         cell::Cell & topLeft = grid.at(0, 0);
-        cell::Cell * actual = topLeft.neighbors.getEast();
+        cell::Cell * actual = topLeft.east.get();
 
         TS_ASSERT_EQUALS(expected, actual);
     }
@@ -19,7 +19,7 @@ public:
     void test_bottomLeftHasNorth() {
         cell::Cell * expected = &grid.at(0, 0);
         cell::Cell & bottomLeft = grid.at(0, 1);
-        cell::Cell * actual = bottomLeft.neighbors.getNorth();
+        cell::Cell * actual = bottomLeft.north.get();
         
         TS_ASSERT_EQUALS(expected, actual);
     }
@@ -27,7 +27,7 @@ public:
     void test_topRightHasWest() {
         cell::Cell * expected = &grid.at(0, 0);
         cell::Cell & topRight = grid.at(1, 0);
-        cell::Cell * actual = topRight.neighbors.getWest();
+        cell::Cell * actual = topRight.west.get();
         
         TS_ASSERT_EQUALS(expected, actual);
     }
@@ -35,7 +35,7 @@ public:
     void test_topRightHasSouth() {
         cell::Cell * expected = &grid.at(1, 1);
         cell::Cell & topRight = grid.at(1, 0);
-        cell::Cell * actual = topRight.neighbors.getSouth();
+        cell::Cell * actual = topRight.south.get();
         
         TS_ASSERT_EQUALS(expected, actual);
     }
@@ -43,15 +43,15 @@ public:
     void test_topRightHasNoEast() {
         cell::Cell * expected = nullptr;
         cell::Cell & topRight = grid.at(1, 0);
-        cell::Cell * actual = topRight.neighbors.getEast();
+        cell::Cell * actual = topRight.east.get();
         
         TS_ASSERT_EQUALS(expected, actual);
     }
     
     void test_forEachCell() {
-        for (auto & [neighbors, linker] : grid)
-            if (neighbors.getEast() != nullptr)
-                linker.link(neighbors.getEast()->linker);
+        for (auto & cell : grid)
+            if (cell.east.get() != nullptr)
+                cell.link(*cell.east.get());
     }
 };
 

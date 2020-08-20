@@ -20,22 +20,21 @@ namespace GridConverter {
 
             for (size_t col = 0; col != columns; ++col) {
                 auto & cell = grid.at(col, row);
-                auto & [neighbors, linker] = grid.at(col, row);
 
                 std::string body = "   ";
-                std::string corner = cell.isLinkedToEast() and
-                    cell.isEastLinkedToSouthEast() and
-                    cell.isLinkedToSouth() and
-                    cell.isSouthLinkedToSouthEast() ?
+                std::string corner = cell.isLinkedTo(cell.east) and
+                    cell.east->isLinkedTo(cell.east->south) and
+                    cell.isLinkedTo(cell.south) and
+                    cell.south->isLinkedTo(cell.south->east) ?
                     " " : "+";
                 
                 std::string east_boundary;
-                bool isEast = (col != columns - 1 && linker.isLinkedTo(neighbors.getEast()->linker));
+                bool isEast = (col != columns - 1 && cell.isLinkedTo(cell.east));
                 east_boundary = (isEast ? " " : "|");
                 mid += body + east_boundary;
 
                 std::string south_boundary;
-                bool isSouth = (row != rows - 1 && linker.isLinkedTo(neighbors.getSouth()->linker));
+                bool isSouth = (row != rows - 1 && cell.isLinkedTo(cell.south));
                 south_boundary = isSouth ? "   " : "---";
                 bottom += south_boundary + corner;
 

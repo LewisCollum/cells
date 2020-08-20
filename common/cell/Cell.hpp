@@ -1,47 +1,41 @@
 #ifndef CELL
 #define CELL
 
-#include "cell/Neighbors.hpp"
+#include "cell/Neighbor.hpp"
 #include "cell/Linker.hpp"
-namespace cell {
-    struct Cell {
-        cell::Neighbors<Cell> neighbors;
-        cell::BidirectionalLinker linker;
 
-        void setEast(Cell & east) {neighbors.setEast(east);}
-        void setWest(Cell & west) {neighbors.setWest(west);}
-        void setNorth(Cell & north) {neighbors.setNorth(north);}
-        void setSouth(Cell & south) {neighbors.setSouth(south);}    
+namespace cell {
+    struct Cell;
+    using Neighbors = Neighbor<Cell>::Group;
+    
+    struct Cell {
+        Neighbors neighbors;
+        BidirectionalLinker linker;
+
+        Neighbor<Cell> west{neighbors};
+        Neighbor<Cell> east{neighbors};
+        Neighbor<Cell> south{neighbors};
+        Neighbor<Cell> north{neighbors}; 
 
         void link(Cell & cell) {
             linker.link(cell.linker);
         }
 
+        void link(Neighbor<Cell> & neighbor) {
+            linker.link(neighbor->linker);
+        }
+
+        bool isLinkedTo(Cell const & other) const {
+            return linker.isLinkedTo(other.linker);
+        }
+
+        bool isLinkedTo(Neighbor<Cell> const & neighbor) const {
+            return linker.isLinkedTo(neighbor->linker);
+        }
+
         bool hasLinks() {
             return linker.hasLinks();
         }
-
-        Cell * selectNeighbor(auto & selector) {
-            return selector(neighbors);
-        }
-    
-        bool isEastLinkedToSouthEast() {
-            Cell * southEast = neighbors.getEast()->neighbors.getSouth();
-            return neighbors.getEast()->linker.isLinkedTo(southEast->linker);
-        }
-
-        bool isSouthLinkedToSouthEast() {
-            Cell * southEast = neighbors.getSouth()->neighbors.getEast();
-            return neighbors.getSouth()->linker.isLinkedTo(southEast->linker);
-        }
-    
-        bool isLinkedToEast() {
-            return linker.isLinkedTo(neighbors.getEast()->linker);
-        }
-
-        bool isLinkedToSouth() {
-            return linker.isLinkedTo(neighbors.getSouth()->linker);
-        }    
     };
 }
 #endif

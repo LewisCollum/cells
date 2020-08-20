@@ -16,16 +16,16 @@ namespace cell {
                     auto & cell = this->at(x, y);
 
                     if (this->isWithinBounds(x+1, y))
-                        cell.setEast(this->at(x+1, y));
+                        cell.east = this->at(x+1, y);
                 
                     if (this->isWithinBounds(x-1, y))
-                        cell.setWest(this->at(x-1, y));
+                        cell.west = this->at(x-1, y);
                 
                     if (this->isWithinBounds(x, y+1))
-                        cell.setSouth(this->at(x, y+1));                    
+                        cell.south = this->at(x, y+1);                    
 
                     if (this->isWithinBounds(x, y-1))
-                        cell.setNorth(this->at(x, y-1));                 
+                        cell.north = this->at(x, y-1);
                 }
             }
         }
