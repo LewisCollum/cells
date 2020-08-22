@@ -15,8 +15,15 @@ namespace cell {
         Neighbor<Cell> west{neighbors};
         Neighbor<Cell> east{neighbors};
         Neighbor<Cell> south{neighbors};
-        Neighbor<Cell> north{neighbors}; 
+        Neighbor<Cell> north{neighbors};
 
+        void clearNeighbor(Cell & other) {
+            if (&other == west.get()) west.clear();
+            else if (&other == east.get()) east.clear();
+            else if (&other == north.get()) north.clear();
+            else if (&other == south.get()) south.clear();
+        }
+        
         void link(Cell & cell) {
             linker.link(cell.linker);
         }

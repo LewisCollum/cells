@@ -5,7 +5,7 @@
 #include "rectangle/Boundary.hpp"
 
 class TestBoundary : public CxxTest::TestSuite {
-    rectangle::Limits const boundaryLimits{x:{0,2}, y:{0,2}};
+    rectangle::Limits const boundaryLimits{x:{1,3}, y:{1,3}};
     rectangle::Boundary const boundary{boundaryLimits};
     
 public:
@@ -13,7 +13,10 @@ public:
         auto expectedSize = 12;
         auto actualSize = 0;
         
-        boundary.forEachLateralCoordinates([&]([[maybe_unused]] auto){
+        boundary.forEachLateralCoordinates([&](auto & coordinatePair){
+            std::cout << coordinatePair.first.x << " " << coordinatePair.first.y << ", "
+                      << coordinatePair.second.x << " " << coordinatePair.second.y << std::endl;
+            
             ++actualSize;
         });
 

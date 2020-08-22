@@ -17,6 +17,10 @@ namespace rectangle {
             return x < columns and x >= 0 and y < rows and y >= 0;
         }
 
+        constexpr bool isWithinBounds(rectangle::Coordinates coordinates) {
+            return isWithinBounds(coordinates.x, coordinates.y);
+        }
+
         constexpr Element & at(size_t x, size_t y) {
             return grid[y * columns + x];
         }

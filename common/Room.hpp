@@ -38,41 +38,14 @@ public:
     
     template <size_t columns, size_t rows>
     void cut(cell::Grid<columns, rows>& grid) {
-        bool isTouchingLeftBorder = limits.x.first == 0;
-        bool isTouchingRightBorder = limits.x.second == columns - 1;     
-        bool isTouchingTopBorder = limits.y.first == 0;
-        bool isTouchingBottomBorder = limits.y.second == rows - 1;
-
-        // only perimeter cells
-        for (int i = limits.x.first; i <= limits.x.second; ++i) {
-            bool isFirstColumnToCut = i == limits.x.first;
-            bool isLastColumnToCut = i == limits.x.second;
-
-            int rowIncrement = (isFirstColumnToCut or isLastColumnToCut) ?
-                1 : limits.y.second-limits.y.first;
-            
-            for (int j = limits.y.first; j <= limits.y.second; j += rowIncrement) {
-                auto & cell = grid.at(i, j);
-                
-                if (isFirstColumnToCut and not isTouchingLeftBorder) {
-                    cell.west->east.clear();
-                    cell.west.clear();
-                } else if (isLastColumnToCut and not isTouchingRightBorder) {
-                    cell.east->west.clear();
-                    cell.east.clear();
-                }
-
-                bool isFirstRowToCut = j == limits.y.first;
-                bool isLastRowToCut = j == limits.y.second;
-                if (isFirstRowToCut and not isTouchingTopBorder) {
-                    cell.north->south.clear();
-                    cell.north.clear();
-                } else if (isLastRowToCut and not isTouchingBottomBorder) {
-                    cell.south->north.clear();
-                    cell.south.clear();
-                } 
+        boundary.forEachLateralCoordinates([&](auto & coordinatePair){
+            if (grid.isWithinBounds(coordinatePair.first) and grid.isWithinBounds(coordinatePair.second)) {
+                cell::Cell & first = grid.at(coordinatePair.first);
+                cell::Cell & second = grid.at(coordinatePair.second);
+                first.clearNeighbor(second);
+                second.clearNeighbor(first);
             }
-        }
+        });
     }
 
     template <size_t columns, size_t rows>

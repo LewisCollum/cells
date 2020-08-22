@@ -6,8 +6,8 @@
 #include "Rooms.hpp"
 
 int main() {
-    cell::Grid<25, 25> aldousGrid;
-    auto rooms = Rooms::generateWithinArea(25, 25, 20);
+    cell::Grid<15, 15> aldousGrid;
+    auto rooms = Rooms::generateWithinArea(15, 15, 20);
     for (auto & room : rooms) {
         room.cut(aldousGrid);
         room.fill(aldousGrid);
