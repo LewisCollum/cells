@@ -1,5 +1,4 @@
 #+title: Cells
+A well modularized Object-Oriented approach to maze algorithms. Features an easy-to-use API, unit tests using CxxTest, and a clean Makefile system. Currently, the Aldous Broder and Binary Tree algorithms have been implemented using the API.
 
-* Updates
-** Now generating Rooms! (2020-01-18)
-   [[./doc/figure/2020-01-18_randomRoomsSkinny.png]]
+[[./doc/figure/2020-01-18_randomRoomsSkinny.png]]
