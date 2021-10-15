@@ -3,13 +3,3 @@
 * Updates
 ** Now generating Rooms! (2020-01-18)
    [[./doc/figure/2020-01-18_randomRoomsSkinny.png]]
-* Tasks
-  - [ ] =rectangle= namespace
-    #+begin_src C++
-namespace rectangle {
-    struct Limits;
-    struct Boundary;
-    struct Distance;
-    struct OverlapDetector;
-}
-    #+end_src
