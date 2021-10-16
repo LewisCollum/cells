@@ -8,8 +8,6 @@ namespace rectangle {
     struct Limits {
         std::pair<int, int> x;
         std::pair<int, int> y;
-
-        constexpr Limits(std::pair<int, int> x, std::pair<int, int> y) : x{x}, y{y} {}
         
         constexpr int width() const {
             return x.second - x.first + 1;

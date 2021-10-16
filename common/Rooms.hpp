@@ -20,8 +20,8 @@ namespace Rooms{
             int yRandom = RandomSelector::select(0, height-roomHeight);
 
             rectangle::Limits limits = {
-              x: {xRandom,xRandom+roomWidth-1},
-              y: {yRandom,yRandom+roomHeight-1}};
+              x: {xRandom, xRandom+roomWidth-1},
+              y: {yRandom, yRandom+roomHeight-1}};
             Room roomCandidate(limits);
 
             if (!roomCandidate.isOverlappingRooms(rooms))

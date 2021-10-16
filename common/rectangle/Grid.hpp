@@ -14,7 +14,7 @@ namespace rectangle {
     
     public:
         constexpr bool isWithinBounds(size_t x, size_t y) {
-            return x < columns and x >= 0 and y < rows and y >= 0;
+            return x < columns and y < rows;
         }
 
         constexpr bool isWithinBounds(rectangle::Coordinates coordinates) {
