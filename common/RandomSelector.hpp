@@ -11,25 +11,25 @@
 namespace RandomSelector {
     auto generator = std::default_random_engine(std::random_device()());    
 
-	template <typename Iter>
-	Iter select(Iter start, Iter end) {
+    template <typename Iter>
+    Iter select(Iter start, Iter end) {
         std::uniform_int_distribution<> distribution(0, std::distance(start, end) - 1);
         std::advance(start, distribution(generator));
         return start;
-	}
+    }
 
     // NonMap
     template <typename Container>
-	auto select(Container & c, std::false_type, std::false_type) {
-		return *select(c.begin(), c.end());
-	}
+    auto select(Container & c, std::false_type, std::false_type) {
+        return *select(c.begin(), c.end());
+    }
 
-	template <typename Container>
+    template <typename Container>
     auto * select(Container & c, std::false_type, std::true_type) {
-		return c.begin() != c.end() ?
+        return c.begin() != c.end() ?
             *select(c.begin(), c.end()) :
             nullptr;
-	}
+    }
     
     template<typename Container>
     auto select(Container & c, std::false_type) {
@@ -41,14 +41,14 @@ namespace RandomSelector {
     template <typename Container>
     auto select(Container & c, std::true_type, std::false_type) {
         return select(c.begin(), c.end())->second;
-	}
+    }
     
-	template <typename Container>
+    template <typename Container>
     auto * select(Container & c, std::true_type, std::true_type) {
         return c.begin() != c.end() ?
             select(c.begin(), c.end())->second :
             nullptr;
-	}
+    }
     
     template<typename Container>
     auto select(Container & c, std::true_type) {
@@ -79,7 +79,5 @@ namespace RandomSelector {
         return distribution(generator);
     }
 }
-
-
 
 #endif
